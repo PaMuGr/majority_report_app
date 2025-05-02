@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Signup Form</title>
+    <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+    <div class="container">
+        <h2>Signup Form</h2>
+        <form id="signupForm">
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" required />
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required />
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required />
+                <div class="password-hint" id="passwordHint">
+                    Password must be at least 8 characters long, and include at least one uppercase letter, one lowercase letter, one number, and one special character.
+                </div>
+                <span id="passwordError" class="error"></span>
+                <div class="password-strength" id="passwordStrength"></div>
+            </div>
+            <div class="form-group">
+                <label for="confirmPassword">Confirm Password</label>
+                <input type="password" id="confirmPassword" name="confirmPassword" required />
+                <span id="confirmPasswordError" class="error"></span>
+            </div>
+            <button type="submit">Signup</button>
+        </form>
+        <p id="message"></p>
+    </div>
+    <script>
+        document.getElementById('signupForm').addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            let username = document.getElementById('username').value;
+            let email = document.getElementById('email').value;
+            let password = document.getElementById('password').value;
+            let confirmPassword = document.getElementById('confirmPassword').value;
+            let message = document.getElementById('message');
+            let passwordError = document.getElementById('passwordError');
+            let confirmPasswordError = document.getElementById('confirmPasswordError');
+
+            let passwordValid = validatePassword(password);
+            if (!passwordValid) {
+                passwordError.textContent = 'Password does not meet the requirements.';
+                return;
+            } else {
+                passwordError.textContent = '';
+            }
+
+            if (password !== confirmPassword) {
+                confirmPasswordError.textContent = 'Passwords do not match!';
+                return;
+            } else {
+                confirmPasswordError.textContent = '';
+            }
+
+            message.style.color = 'green';
+            message.textContent = 'Signup successful!';
+        });
+
+        document.getElementById('password').addEventListener('focus', function () {
+            document.getElementById('passwordHint').style.display = 'block';
+        });
+
+        document.getElementById('password').addEventListener('blur', function () {
+            document.getElementById('passwordHint').style.display = 'none';
+        });
+
+        document.getElementById('password').addEventListener('input', function () {
+            let password = this.value;
+            let passwordStrength = document.getElementById('passwordStrength');
+            let strength = getPasswordStrength(password);
+
+            passwordStrength.innerHTML = '';
+            if (strength) {
+                let strengthBar = document.createElement('div');
+                strengthBar.className = strength;
+                passwordStrength.appendChild(strengthBar);
+            }
+        });
+
+        function validatePassword(password) {
+            let regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+            return regex.test(password);
+        }
+
+        function getPasswordStrength(password) {
+            if (password.length < 8) {
+                return 'weak';
+            }
+            if (password.match(/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])/)) {
+                return 'strong';
+            }
+            return 'medium';
+        }
+    </script>
+</body>
+</html>
