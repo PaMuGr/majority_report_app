@@ -1,13 +1,51 @@
 <!DOCTYPE html>
-
 <html>
-
 <head>
-    <title> HachUPC hacking team </title>
+    <title>Majority Report</title>
     <link rel="stylesheet" href="css/index.css">
+    <!-- Add Firebase SDK -->
+    <script type="module">
+        // Import Firebase
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
+        // Your Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyCyOgBBXIo5C-LtsbrdxZepRZoWeF7r17M",
+            authDomain: "majority-report-33739.firebaseapp.com",
+            projectId: "majority-report-33739",
+            storageBucket: "majority-report-33739.appspot.com",
+            messagingSenderId: "96713972972",
+            appId: "1:96713972972:web:ecdba62f0a3c29d01259c9",
+            measurementId: "G-Z379S3VVY9"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+        // Check auth state when page loads
+        document.addEventListener("DOMContentLoaded", () => {
+            onAuthStateChanged(auth, (user) => {
+                if (user) {
+                    // User is signed in
+                    const displayName = user.displayName || "User";
+                    
+                    // Update all placeholders with the username
+                    document.querySelectorAll('p, h2').forEach(element => {
+                        if (element.textContent.includes('@user') || element.textContent.includes('@USERNAME')) {
+                            element.textContent = element.textContent.replace('@user', displayName)
+                                                                     .replace('@USERNAME', displayName.toUpperCase());
+                        }
+                    });
+                } else {
+                    // User is not signed in, redirect to login
+                    window.location.href = "index.html";
+                }
+            });
+        });
+    </script>
 </head>
-
 
 <body>
     <nav>    
@@ -20,7 +58,6 @@
                 </ul>
             </li>
             <li><a href="leaderboard.html"><img src="graphics/bp.png" height="20"></a></li>
-                
         </ul>
     </nav>
     <br><br><br><br>
@@ -28,9 +65,9 @@
     <h1 style="text-align: center;"> Majority Report</h1>
     <br><br><br>
 
-    <p style="text-align: center;" >Welcome back @user!</p>
+    <p style="text-align: center;">Welcome back @user!</p>
     <br><br>
-    <a  href="questions.html">
+    <a href="questions.html">
         <button class="go_button">
             <h3>Answer today's question!</h3>
         </button>
@@ -50,6 +87,4 @@
     </div>
     <br><br><br><br><br><br><br><br><br><br>
 </body>
-
-    
 </html>

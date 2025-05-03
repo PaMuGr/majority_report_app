@@ -48,7 +48,7 @@ h1 {
     width: 150px;
 }
 .box {
-    color: #0a1522;
+    color: #112D4E;
     background-color: rgba(127, 255, 212, 0);
     padding: 20px;
     border: 1px solid;
@@ -63,11 +63,13 @@ h1 {
     background-color: #e4e3d5;
     padding: 20px;
     border-radius: 25px;
-    
     outline-color: #18293b00;
 }
 .go_button{
-    margin-left: 520px;
+    margin: 0 auto; 
+    position: relative; 
+    left: 50%;
+    transform: translateX(-50%); 
     width: 350px;
     height: 80px;
     background-color: #3F72AF;
