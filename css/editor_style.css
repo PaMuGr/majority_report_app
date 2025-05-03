@@ -18,42 +18,37 @@ input {
   margin-top: 15px;
 }
 
-ul {
+.navigator{
   list-style: none;
-  background: #74aae7;
+  background: #3F72AF;
 }
-
-ul li {
+.navigator li{
   display: inline-block;
-  background-color: #74aae7;
-  position: relative;
+  background-color: #3F72AF;
 }
-
-ul li a {
+.navigator li a{
   display: block;
-  padding: 20px 25px;
-  color: white;
+  padding: 15px 20px;
+  color: #F9F7F7;
   text-decoration: none;
   text-align: center;
   font-size: 20px;
 }
+.navigator li ul.dropdown li{
+  display: block;
 
-ul li a:hover {
-  background-color: #1474e1;
 }
-
-ul li ul.dropdown {
+.navigator li ul.dropdown{
   width: 11%;
   position: absolute;
   z-index: 999;
   display: none;
 }
-
-ul li ul.dropdown li {
-  display: block;
+.navigator li a:hover {
+  background-color: #112D4E;
 }
 
-ul li:hover ul.dropdown {
+.navigator li:hover ul.dropdown{
   display: block;
 }
 
@@ -78,7 +73,7 @@ ul li:hover ul.dropdown {
 .form-container {
   max-width: 600px;
   margin: 40px auto;
-  background-color: white;
+  background-color: #F9F7F7;
   padding: 20px;
   border: 1px solid #ccc;
   border-radius: 8px;
@@ -122,7 +117,7 @@ ul li:hover ul.dropdown {
 
 .answer button {
   padding: 6px 12px;
-  background-color: #74aae7;
+  background-color: #3F72AF;
   color: white;
   border: none;
   border-radius: 4px;
@@ -138,12 +133,12 @@ ul li:hover ul.dropdown {
 }
 
 .answer button:hover {
-  background-color: #3F72AF;
+  background-color: #112D4E;
 }
 
 .correct-button {
   padding: 6px 12px;
-  background-color: #74aae7;
+  background-color: #3F72AF;
   color: white;
   border: none;
   border-radius: 4px;
@@ -151,11 +146,11 @@ ul li:hover ul.dropdown {
 }
 
 .correct-button:hover {
-  background-color: #3F72AF;
+  background-color: #112D4E;
 }
 
 .correct-button.active {
-  background-color: #3F72AF;
+  background-color: #112D4E;
   color: white;
   border: none;
 }
