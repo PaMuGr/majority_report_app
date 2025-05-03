@@ -8,8 +8,9 @@
   <!-- All your Firebase + signup code lives here -->
   <script type="module">
     // 1. Import the Firebase SDKs you need
-    import { initializeApp }   from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-    import { getAuth, createUserWithEmailAndPassword }
+    import { initializeApp }
+      from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import {getAuth, createUserWithEmailAndPassword,updateProfile}
       from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
     import { getAnalytics }
       from "https://www.gstatic.com/firebasejs/10.12.0/firebase-analytics.js";
@@ -54,8 +55,10 @@
         try {
           // Create the user
           const userCred = await createUserWithEmailAndPassword(auth, email, password);
-          // Optionally, you could set displayName here via updateProfile()
-          alert(`Welcome, ${firstname}! Your account (${userCred.user.email}) is ready.`);
+          await updateProfile(userCred.user, {displayName: firstname});
+
+          const user = userCred.user;
+          alert(`Welcome, ${user.displayName}! Your account (${userCred.user.email}) is ready.`);
           form.reset();
         } catch (err) {
           console.error(err);
