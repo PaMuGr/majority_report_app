@@ -15,6 +15,19 @@ ja està lol nose
   <link rel="stylesheet" href="editor_style.css">
 </head>
 <body>
+  <nav>    
+    <ul>
+        <li><a href="index.html" ><img src="graphics/home-icon.png"  height="45" ></a></li>
+        <li class="align-right">
+            <a href="index.html"> <img src="graphics/user.png" height="45"> </a>
+            <ul class="dropdown">
+                <li><a href="sign_up.html">Sign Up</a></li>
+                <li><a href="login.html">Log in</a></li>
+            </ul>
+        </li>
+            
+    </ul>
+</nav>
   <div class="form-container">
     <h1>Create A Prediction</h1>
     <div class="form-group">
@@ -30,8 +43,8 @@ ja està lol nose
   <script>
     const answersContainer = document.getElementById('answers-container');
     const questionInput = document.getElementById('question');
-    const MAX_ANSWERS = 4; // Maximum number of answers allowed
-    const MIN_ANSWERS = 2; // Minimum number of answers required
+    const MAX_ANSWERS = 4; // Max num of answ
+    const MIN_ANSWERS = 2; // Min num of answ
 
     // Function to create a new answer container
     function createAnswerContainer() {
@@ -104,6 +117,7 @@ ja està lol nose
     // Add button for adding new answers
     const addAnswerButton = document.createElement('button');
     addAnswerButton.textContent = '+'; // Plus sign
+    addAnswerButton.classList.add('correct-button'); // Apply the same style
     addAnswerButton.addEventListener('click', createAnswerContainer);
     document.querySelector('.form-container').appendChild(addAnswerButton);
 
@@ -111,6 +125,7 @@ ja està lol nose
     const publishButton = document.createElement('button');
     publishButton.textContent = 'Publish Question';
     publishButton.disabled = true; // Initially disabled
+    publishButton.classList.add('correct-button'); // Apply the same style
     publishButton.addEventListener('click', () => {
       alert('Question published successfully!');
     });

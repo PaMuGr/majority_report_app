@@ -1,11 +1,88 @@
-body {
-  font-family: Arial, sans-serif;
-  margin: 20px;
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
 }
 
+body {
+  background-color: #eaeef3;
+  font-family: sans-serif;
+}
+
+h1 {
+  font-family: sans-serif;
+  margin-bottom: 15px; 
+}
+
+input {
+  margin-top: 15px;
+}
+
+ul {
+  list-style: none;
+  background: #74aae7;
+}
+
+ul li {
+  display: inline-block;
+  background-color: #74aae7;
+  position: relative;
+}
+
+ul li a {
+  display: block;
+  padding: 20px 25px;
+  color: white;
+  text-decoration: none;
+  text-align: center;
+  font-size: 20px;
+}
+
+ul li a:hover {
+  background-color: #1474e1;
+}
+
+ul li ul.dropdown {
+  width: 11%;
+  position: absolute;
+  z-index: 999;
+  display: none;
+}
+
+ul li ul.dropdown li {
+  display: block;
+}
+
+ul li:hover ul.dropdown {
+  display: block;
+}
+
+/* Utility Classes */
+.align-right {
+  float: right;
+  margin: 0 0 1rem 1rem;
+  width: 150px;
+}
+
+.box {
+  color: #0a1522;
+  background-color: rgba(127, 255, 212, 0);
+  padding: 20px;
+  border: 1px solid;
+  margin-left: 200px;
+  margin-right: 200px;
+  outline-color: #18293b;
+}
+
+/* Form Styling */
 .form-container {
   max-width: 600px;
-  margin: 0 auto;
+  margin: 40px auto;
+  background-color: white;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
 .form-group {
@@ -15,36 +92,71 @@ body {
 .form-group label {
   display: block;
   margin-bottom: 5px;
+  color: #0a1522;
 }
 
 .form-group input {
   width: 100%;
-  padding: 8px;
-  box-sizing: border-box;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
 }
 
 .answers-container {
-  margin-top: 10px;
+  margin-top: 0px;
 }
 
 .answer {
   display: flex;
-  align-items: center;
-  margin-bottom: 5px;
+  align-items: center; /* Ensures vertical alignment */
+  margin-bottom: 10px;
 }
 
 .answer input {
   flex: 1;
-  padding: 8px;
+  padding: 10px;
   margin-right: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
 }
 
 .answer button {
-  padding: 5px 10px;
+  padding: 6px 12px;
+  background-color: #74aae7;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center; 
+  justify-content: center;
+  margin: 16px 5px 0 0; 
+}
+
+.answer button:last-child {
+  margin: 16px 0 0 0; 
+}
+
+.answer button:hover {
+  background-color: #3F72AF;
+}
+
+.correct-button {
+  padding: 6px 12px;
+  background-color: #74aae7;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.correct-button:hover {
+  background-color: #3F72AF;
 }
 
 .correct-button.active {
-  background-color: #4caf50; /* Green background */
-  color: white; /* White text */
-  border: none; /* Remove border */
+  background-color: #3F72AF;
+  color: white;
+  border: none;
 }
+
