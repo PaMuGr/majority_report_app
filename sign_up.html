@@ -60,6 +60,10 @@
           const user = userCred.user;
           alert(`Welcome, ${user.displayName}! Your account (${userCred.user.email}) is ready.`);
           form.reset();
+
+          // Save username to local storage
+          localStorage.setItem('username', firstname);
+          window.location.href = 'home.html'; // Redirect to home page
         } catch (err) {
           console.error(err);
           errorMessage.textContent = "Error: " + err.message;
