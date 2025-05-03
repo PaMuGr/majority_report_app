@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+
+
+<!-- AJUDA SOBRE EL CODI DE EDITOR DE PREGUNTES
+Les variables MAX_ANSWERS i MIN_ANSWERS defineixen el màxim i el mínim nombre de respostes, respectivament.
+ja està lol nose
+-->
+
+
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create a prediction</title>
+  <link rel="stylesheet" href="editor_style.css">
+</head>
+<body>
+  <div class="form-container">
+    <h1>Create A Prediction</h1>
+    <div class="form-group">
+      <label for="question">Question:</label>
+      <input type="text" id="question" placeholder="Enter your question here">
+    </div>
+    <p>Answers:</p>
+    <div class="answers-container" id="answers-container">
+      <!-- Dynamic answers will be added here -->
+    </div>
+  </div>
+
+  <script>
+    const answersContainer = document.getElementById('answers-container');
+    const questionInput = document.getElementById('question');
+    const MAX_ANSWERS = 4; // Maximum number of answers allowed
+    const MIN_ANSWERS = 2; // Minimum number of answers required
+
+    // Function to create a new answer container
+    function createAnswerContainer() {
+      if (answersContainer.children.length >= MAX_ANSWERS) return;
+
+      const answerDiv = document.createElement('div');
+      answerDiv.classList.add('answer');
+
+      const answerInput = document.createElement('input');
+      answerInput.type = 'text';
+      answerInput.placeholder = `Answer ${answersContainer.children.length + 1}`;
+      answerInput.addEventListener('input', updatePublishButtonState);
+
+      const correctButton = document.createElement('button');
+      correctButton.textContent = 'Mark as Correct';
+      correctButton.addEventListener('click', () => {
+        // Unmark all other buttons
+        const allButtons = answersContainer.querySelectorAll('.correct-button');
+        allButtons.forEach(button => button.classList.remove('active'));
+
+        // Mark this button as active
+        correctButton.classList.add('active');
+        updatePublishButtonState();
+      });
+      correctButton.classList.add('correct-button');
+
+      const deleteButton = document.createElement('button');
+      deleteButton.textContent = '-'; // Minus sign
+      deleteButton.addEventListener('click', () => {
+        if (answersContainer.children.length > MIN_ANSWERS) {
+          answerDiv.remove();
+          updatePlaceholders();
+          updateAddButtonState();
+          updatePublishButtonState();
+        }
+      });
+
+      answerDiv.appendChild(answerInput);
+      answerDiv.appendChild(correctButton);
+      answerDiv.appendChild(deleteButton);
+      answersContainer.appendChild(answerDiv);
+
+      updateAddButtonState();
+      updatePublishButtonState();
+    }
+
+    // Function to update placeholders after removing an answer
+    function updatePlaceholders() {
+      const answerInputs = answersContainer.querySelectorAll('input[type="text"]');
+      answerInputs.forEach((input, index) => {
+        input.placeholder = `Answer ${index + 1}`;
+      });
+    }
+
+    // Function to enable/disable the "Add" button based on the number of answers
+    function updateAddButtonState() {
+      addAnswerButton.disabled = answersContainer.children.length >= MAX_ANSWERS;
+    }
+
+    // Function to enable/disable the "Publish Question" button
+    function updatePublishButtonState() {
+      const allAnswersFilled = Array.from(answersContainer.querySelectorAll('input[type="text"]'))
+        .every(input => input.value.trim() !== '');
+      const questionFilled = questionInput.value.trim() !== '';
+      const correctAnswerSelected = answersContainer.querySelector('.correct-button.active') !== null;
+
+      publishButton.disabled = !(allAnswersFilled && questionFilled && correctAnswerSelected);
+    }
+
+    // Add button for adding new answers
+    const addAnswerButton = document.createElement('button');
+    addAnswerButton.textContent = '+'; // Plus sign
+    addAnswerButton.addEventListener('click', createAnswerContainer);
+    document.querySelector('.form-container').appendChild(addAnswerButton);
+
+    // Add "Publish Question" button
+    const publishButton = document.createElement('button');
+    publishButton.textContent = 'Publish Question';
+    publishButton.disabled = true; // Initially disabled
+    publishButton.addEventListener('click', () => {
+      alert('Question published successfully!');
+    });
+
+    // Add some spacing before the publish button
+    const spacing = document.createElement('div');
+    spacing.style.height = '10px'; // Add vertical spacing
+    document.querySelector('.form-container').appendChild(spacing);
+
+    document.querySelector('.form-container').appendChild(publishButton);
+
+    // Initialize with two default answer containers
+    while (answersContainer.children.length < MIN_ANSWERS) {
+      createAnswerContainer();
+    }
+
+    // Add event listener to the question input to update the publish button state
+    questionInput.addEventListener('input', updatePublishButtonState);
+  </script>
+</body>
+</html>
