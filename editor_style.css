@@ -1,0 +1,50 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 20px;
+}
+
+.form-container {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 8px;
+  box-sizing: border-box;
+}
+
+.answers-container {
+  margin-top: 10px;
+}
+
+.answer {
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+.answer input {
+  flex: 1;
+  padding: 8px;
+  margin-right: 10px;
+}
+
+.answer button {
+  padding: 5px 10px;
+}
+
+.correct-button.active {
+  background-color: #4caf50; /* Green background */
+  color: white; /* White text */
+  border: none; /* Remove border */
+}
