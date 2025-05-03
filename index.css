@@ -1,42 +1,6 @@
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
-    margin: 0;
-    padding: 40px 0; /* Adds space at top/bottom */
-    display: flex;
-    justify-content: center;   
+body{
+    background-color: #eaeef3;
 }
-
-.quiz-container {
-    width: 80%;
-    max-width: 600px;
-    background-color: #fff;
-    padding: 20px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    overflow-y: auto;
-    border-radius: 10px;
-}
-
-.question {
-    margin: 40px 0; /* More space between questions */
-    padding: 20px;
-    background-color: #e0e0e0;
-    border-radius: 8px;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-    text-align: center;
-}
-
-.answers {
-    margin-top: 15px;
-    text-align: left;
-    display: inline-block; /* Keeps options neatly aligned */
-}
-
-.answers label {
-    display: block;
-    margin: 10px 0;
-}
-
 h1 {
     font-family: sans-serif;
 }
@@ -91,4 +55,3 @@ ul li:hover ul.dropdown{
     margin-right: 200px;
     outline-color: #18293b;
 }
-
