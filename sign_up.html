@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Signup</title>
+  <link rel="stylesheet" href="style.css">
+  <!-- All your Firebase + signup code lives here -->
+  <script type="module">
+    // 1. Import the Firebase SDKs you need
+    import { initializeApp }   from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { getAuth, createUserWithEmailAndPassword }
+      from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+    import { getAnalytics }
+      from "https://www.gstatic.com/firebasejs/10.12.0/firebase-analytics.js";
+
+    // 2. Your web app's Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyCyOgBBXIo5C-LtsbrdxZepRZoWeF7r17M",
+      authDomain: "majority-report-33739.firebaseapp.com",
+      projectId: "majority-report-33739",
+      storageBucket: "majority-report-33739.appspot.com",
+      messagingSenderId: "96713972972",
+      appId: "1:96713972972:web:ecdba62f0a3c29d01259c9",
+      measurementId: "G-Z379S3VVY9"
+    };
+
+    // 3. Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const analytics = getAnalytics(app);
+
+    // 4. Once the DOM is ready, wire up our signup form
+    document.addEventListener("DOMContentLoaded", () => {
+      const form         = document.getElementById("signup-form");
+      const firstnameIn  = document.getElementById("firstname-input");
+      const emailIn      = document.getElementById("email");
+      const passwordIn   = document.getElementById("password");
+      const errorMessage = document.getElementById("error-message");
+
+      form.addEventListener("submit", async e => {
+        e.preventDefault();
+        errorMessage.textContent = "";  // clear old errors
+
+        const firstname = firstnameIn.value.trim();
+        const email     = emailIn.value.trim();
+        const password  = passwordIn.value;
+
+        if (!firstname) {
+          errorMessage.textContent = "Please enter your first name.";
+          return;
+        }
+
+        try {
+          // Create the user
+          const userCred = await createUserWithEmailAndPassword(auth, email, password);
+          // Optionally, you could set displayName here via updateProfile()
+          alert(`Welcome, ${firstname}! Your account (${userCred.user.email}) is ready.`);
+          form.reset();
+        } catch (err) {
+          console.error(err);
+          errorMessage.textContent = "Error: " + err.message;
+        }
+      });
+    });
+  </script>
+</head>
+<body>
+  <div class="wrapper">
+    <h1>Signup</h1>
+    <p id="error-message" style="color:red;"></p>
+    <form id="signup-form">
+      <div>
+        <label for="firstname-input">
+          <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"><path d="M480-480q-66 0-113-47t-47-113q0-66 47-113t113-47q66 0 113 47t47 113q0 66-47 113t-113 47ZM160-160v-112q0-34 17.5-62.5T224-378q62-31 126-46.5T480-440q66 0 130 15.5T736-378q29 15 46.5 43.5T800-272v112H160Z"/></svg>
+        </label>
+        <input type="text" name="firstname" id="firstname-input" placeholder="Firstname" required>
+      </div>
+      <div>
+        <label for="email">
+          <span>@</span>
+        </label>
+        <input type="email" name="email" id="email" placeholder="Email" required>
+      </div>
+      <div>
+        <label for="password">
+          <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"><path d="M240-80q-33 0-56.5-23.5T160-160v-400q0-33 23.5-56.5T240-640h40v-80q0-83 58.5-141.5T480-920q83 0 141.5 58.5T680-720v80h40q33 0 56.5 23.5T800-560v400q0 33-23.5 56.5T720-80H240Zm240-200q33 0 56.5-23.5T560-360q0-33-23.5-56.5T480-440q-33 0-56.5 23.5T400-360q0 33 23.5 56.5T480-280ZM360-640h240v-80q0-50-35-85t-85-35q-50 0-85 35t-35 85v80Z"/></svg>
+        </label>
+        <input type="password" name="password" id="password" placeholder="Password" required>
+      </div>
+      <button type="submit">Signup</button>
+    </form>
+    <p>Already have an Account? <a href="login.html">login</a></p>
+  </div>
+</body>
+</html>
