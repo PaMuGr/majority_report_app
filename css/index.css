@@ -79,3 +79,16 @@ h1 {
 .go_button:hover {
     background-color: #112D4E;
 }
+
+footer {
+    text-align: center;
+    padding: 3px;
+    background-color: #3F72AF;
+    color: #F9F7F7;
+    display: block;
+}
+
+.author-column {
+    margin: 0 10px;
+    min-width: 200px;
+}
