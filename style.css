@@ -1,9 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;900&display=swap');
 
 :root {
-  --accent-color: #74aae7;
+  --accent-color: #3F72AF;
   --base-color: #ffffff;
-  --text-color: #1e1e2f;
+  --text-color: #112D4E;
   --input-color: #f5f7fa;
   --error-color: #e74c3c;
 }
@@ -65,7 +65,7 @@ form label {
   height: 50px;
   width: 50px;
   background-color: var(--accent-color);
-  color: rgb(0, 0, 0);
+  color: #000000;
   border-radius: 12px 0 0 12px;
   display: flex;
   align-items: center;
@@ -105,12 +105,12 @@ form button {
 }
 
 form button:hover {
-  background-color: #2d6ecf;
+  background-color: #112D4E;
 }
 
 form button:focus {
   outline: none;
-  background-color: #74aae7;
+  background-color: #3F72AF;
 }
 
 a {
