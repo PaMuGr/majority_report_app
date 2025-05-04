@@ -6,11 +6,11 @@
 
 body {
   background-color: #eaeef3;
-  font-family: sans-serif;
+  font-family: 'Poppins', sans-serif;
 }
 
 h1 {
-  font-family: sans-serif;
+  font-family: 'Poppins', sans-serif;
   margin-bottom: 15px; 
 }
 
@@ -154,4 +154,7 @@ input {
   color: white;
   border: none;
 }
-
+.probando{
+  width: 200px;
+  display: inline-block;
+}

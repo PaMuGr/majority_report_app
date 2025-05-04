@@ -1,0 +1,87 @@
+
+body {
+  background-color: #f0f2f5;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.profile-block {
+  width: 320px;
+  margin: 50px auto;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  border: 1px solid #ddd;
+  padding: 20px;
+  text-align: center;
+}
+
+.profile-name {
+  font-size: 1.3em;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.progress-label {
+  font-size: 0.8em;
+  color: #555;
+  margin-bottom: 5px;
+}
+
+.progress-container {
+  background-color: #e0e0e0;
+  border-radius: 20px;
+  height: 16px;
+  width: 100%;
+  margin-bottom: 20px;
+  overflow: hidden;
+}
+
+.progress-bar {
+  height: 100%;
+  width: 0%;
+  background-color: #4caf50;
+  transition: width 0.3s ease;
+}
+
+.progress-bar.glow {
+  box-shadow: 0 0 10px #4caf50, 0 0 20px #4caf50;
+  animation: glow 1s ease-in-out infinite alternate;
+}
+
+@keyframes glow {
+  from {
+    box-shadow: 0 0 5px #4caf50;
+  }
+  to {
+    box-shadow: 0 0 20px #4caf50;
+  }
+}
+
+.profile-stats {
+  display: flex;
+  justify-content: space-between;
+}
+
+.stat-item {
+  flex: 1;
+  padding: 10px;
+  background: #f8f9fa;
+  margin: 0 5px;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+}
+
+.stat-item span.label {
+  display: block;
+  font-size: 0.75em;
+  color: #666;
+}
+
+.stat-item span.value {
+  font-size: 1.1em;
+  font-weight: bold;
+  color: #007bff;
+}

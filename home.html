@@ -1,8 +1,14 @@
 <!DOCTYPE html>
+<link rel="stylesheet" href="/node_modules/@shoelace-style/shoelace/dist/themes/light.css" />
+<script type="module" src="/node_modules/@shoelace-style/shoelace/dist/shoelace.js"></script>
+
 <html>
 <head>
+    <meta charset="UTF-8">
     <title>Majority Report</title>
     <link rel="stylesheet" href="css/index.css">
+
+    <link rel="stylesheet" href="css/profile.css">
     <!-- Add Firebase SDK -->
     <script type="module">
         // Import Firebase
@@ -24,6 +30,7 @@
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
 
+        
         // Check auth state when page loads
         document.addEventListener("DOMContentLoaded", () => {
             onAuthStateChanged(auth, (user) => {
@@ -52,42 +59,127 @@
         <ul class="navigator">
             <li><a href="home.html" ><img src="graphics/home-icon.png"  height="20"  ></a></li>
             <li class="align-right">
-                <a href="home.html"> <img src="graphics/user.png" height="20"> </a>
+                <a> <img src="graphics/user.png" height="20"> </a>
                 <ul class="dropdown">
                     <li><a href="index.html">Log out</a></li>
                 </ul>
             </li>
             <li><a href="leaderboard.html"><img src="graphics/bp.png" height="20"></a></li>
+            <li><a href="editor.html"><img src="graphics/edit.png" height="20"></a></li>
         </ul>
     </nav>
     <br><br><br><br>
+    <div class="fila">
+        <!-- BLOC 1 -->
+        <div class="izquierda">
+            <div style="text-align: center;">
+                <h1> Majority Report</h1>
+            </div>
 
-    <h1 style="text-align: center;"> Majority Report</h1>
-    <br><br><br>
+            <br><br><br>
 
-    <p style="text-align: center;">Welcome back @user!</p>
-    <br><br>
-    <a href="questions.html">
-        <button class="go_button">
-            <h3>Answer today's question!</h3>
-        </button>
-    </a>
+            <div style="text-align: center;">
+                <p>Welcome back @user!</p>
+            </div>
 
-    <br><br>
-    <div class="box">
-        <h2>STATS:</h2>
-        <h2 style="text-align: center;">@USERNAME</h2><br><br>
-        <ul>
-            <div class="shade_box"><li>Level:</li></div>
-            <br>
-            <div class="shade_box"><li>Ratio:</li></div>
-            <br>
-            <div class="shade_box"><li>Global Rank:</li></div>
-        </ul>
+            <br><br>
+            
+            <div>
+                <a href="questions.html">
+                    <button class="go_button">
+                        <h3>Answer today's question!</h3>
+                    </button>
+                </a>
+            </div>
+
+            <div style="text-align: center; font-size: smaller;">
+                <a href="editor.html">
+                    <p>Or write one yourself!</p>
+                </a>
+            </div>
+        </div>
+        
+        <!--
+        <div class="box">
+            <h2>STATS:</h2>
+            <h2 style="text-align: center;">@USERNAME</h2><br><br>
+            <ul>
+                <div class="shade_box"><li>Level:</li></div>
+                <br>
+                <div class="shade_box"><li>Ratio:</li></div>
+                <br>
+                <div class="shade_box"><li>Global Rank:</li></div>
+            </ul>
+        </div>-->
+        <br>
+
+
+
+    </head>
+    <body>
+
+    <div class="profile-block">
+        <div class="profile-name">Jugador123</div>
+
+        <div class="progress-label" id="progress-text">Experiencia: 0%</div>
+        <div class="progress-container">
+        <div class="progress-bar" id="progress-bar"></div>
+        </div>
+
+        <div class="profile-stats">
+        <div class="stat-item">
+            <span class="label">Nivel</span>
+            <span class="value" id="level">1</span>
+        </div>
+        <div class="stat-item">
+            <span class="label">Ratio</span>
+            <span class="value">0</span>
+        </div>
+        <div class="stat-item">
+            <span class="label">Rank Global</span>
+            <span class="value">#1</span>
+        </div>
+        </div>
     </div>
-    <br><br><br><br><br><br><br><br><br><br>
 
-    <footer>
+    <script>
+        let level = 1;
+        let progress = 0;
+        const progressBar = document.getElementById('progress-bar');
+        const progressText = document.getElementById('progress-text');
+        const levelText = document.getElementById('level');
+
+        function increaseProgress() {
+        if (progress < 100) {
+            updateBar();
+        } else {
+            // Añadir clase de brillo
+            progressBar.classList.add('glow');
+
+            setTimeout(() => {
+            // Subir de nivel y reiniciar
+            level++;
+            levelText.textContent = level;
+            progress = 0;
+            updateBar();
+            progressBar.classList.remove('glow');
+            }, 1500); // Duración del brillo
+        }
+        }
+
+        function updateBar() {
+        progressBar.style.width = progress + '%';
+        progressText.textContent = 'Experiencia: ' + progress + '%';
+        }
+
+        // Simula el aumento de experiencia cada 100ms
+        setInterval(increaseProgress, 100);
+    </script>
+  </div>
+
+  <br><br><br>  <br><br>
+
+    <footer style="vertical-align: bottom;">
         <div style="display: flex; justify-content: space-between; flex-wrap: wrap;">
             <div style="margin: 0 20px;">
                 <p>Author: Marlon Folch</p>
