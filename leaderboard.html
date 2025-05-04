@@ -8,14 +8,21 @@
   <link rel="stylesheet" href="css/leaderboard.css">
   <style>
     .leaderboard-block {
-      max-width: 600px;
-      margin: 0 auto;
-      padding: 1rem;
-      background: #fff;
-      border-radius: 0.5rem;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-      max-height: 400px;
+      width: 90%;
+      max-width: 1000px;
+      margin: 2rem auto;
+      padding: 1.5rem;
+      background: #f9f9f9;
+      border-radius: 1rem;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+      max-height: 600px;
       overflow-y: auto;
+      /* Hide scrollbar */
+      -ms-overflow-style: none;  /* IE and Edge */
+      scrollbar-width: none;     /* Firefox */
+    }
+    .leaderboard-block::-webkit-scrollbar {
+      display: none; /* Chrome, Safari, Opera */
     }
     .leaderboard-list {
       list-style: none;
@@ -26,40 +33,59 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 0.5rem;
-      margin-bottom: 0.25rem;
-      border-radius: 0.25rem;
+      padding: 1rem;
+      margin-bottom: 0.75rem;
+      border-radius: 1rem;
       position: relative;
+      background: #fff;
+      /* Detailed card shadow */
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .leaderboard-list li:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     }
     .leaderboard-list li .rank {
-      width: 2rem;
+      flex-shrink: 0;
+      width: 3rem;
       font-weight: bold;
+      font-size: 1.1rem;
+      color: #333;
     }
     .leaderboard-list li .name {
       flex: 1;
       text-align: left;
+      padding: 0 1rem;
+      font-size: 1rem;
+      color: #555;
+      word-break: break-word;
     }
     .leaderboard-list li .score {
-      width: 4rem;
+      flex-shrink: 0;
+      width: 5rem;
       text-align: right;
+      font-size: 1rem;
+      color: #777;
     }
-    /* Podium colors */
-    .bloque-dorado  { background: #FFD700; }
-    .bloque-plateado { background: #C0C0C0; }
-    .bloque-bronce  { background: #CD7F32; }
+    /* Podium colors with subtle gradient */
+    .bloque-dorado  { background: linear-gradient(135deg, #FFD700, #FFC700); }
+    .bloque-plateado { background: linear-gradient(135deg, #C0C0C0, #B0B0B0); }
+    .bloque-bronce  { background: linear-gradient(135deg, #CD7F32, #BC6F22); }
     /* Shine animation for top 3 */
     .glint {
       position: absolute;
       top: 0;
-      left: 0;
-      width: 100%;
+      left: -100%;
+      width: 50%;
       height: 100%;
-      background: rgba(255,255,255,0.3);
-      animation: shine 1s ease-in-out infinite;
+      background: rgba(255,255,255,0.4);
+      transform: skewX(-20deg);
+      animation: shine 2s ease-in-out infinite;
     }
     @keyframes shine {
-      from { transform: translateX(-100%); }
-      to   { transform: translateX(100%); }
+      from { left: -50%; }
+      to   { left: 150%; }
     }
   </style>
   <script type="module">
@@ -87,7 +113,6 @@
           return;
         }
 
-        // Query 'players' collection, ordered by points descending (highest first)
         const playersQ = query(
           collection(db, 'players'),
           orderBy('points', 'desc')
@@ -95,36 +120,31 @@
 
         const snapshot = await getDocs(playersQ);
         const listEl = document.getElementById('leaderboard-list');
-        listEl.innerHTML = ''; // clear any existing items
+        listEl.innerHTML = '';
         let rank = 1;
 
         snapshot.forEach(doc => {
           const data = doc.data();
           const li = document.createElement('li');
 
-          // Apply podium styling to top 3
           if (rank === 1)      li.classList.add('bloque-dorado');
           else if (rank === 2) li.classList.add('bloque-plateado');
           else if (rank === 3) li.classList.add('bloque-bronce');
 
-          // Rank
           const rankSpan = document.createElement('span');
           rankSpan.className = 'rank';
           rankSpan.textContent = rank + '.';
 
-          // Username or displayName
           const nameSpan = document.createElement('span');
           nameSpan.className = 'name';
           nameSpan.textContent = data.username || 'Unknown';
 
-          // Points score
           const scoreSpan = document.createElement('span');
           scoreSpan.className = 'score';
           scoreSpan.textContent = data.points;
 
           li.append(rankSpan, nameSpan, scoreSpan);
 
-          // Add glint effect for top 3
           if (rank <= 3) {
             const glint = document.createElement('div');
             glint.className = 'glint';
@@ -154,7 +174,7 @@
   </nav>
 
   <br><br><br>
-  <h1 style="text-align: center;">Leaderboard 👑</h1>
+  <h1 style="text-align: center;">Leaderboard 🏆</h1>
   <br>
   <div class="leaderboard-block">
     <ol id="leaderboard-list" class="leaderboard-list"></ol>

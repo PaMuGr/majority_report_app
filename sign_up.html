@@ -5,21 +5,24 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Signup</title>
   <link rel="stylesheet" href="css/style.css">
-  <!-- All your Firebase + signup code lives here -->
   <script type="module">
-    // 1. Import the Firebase SDKs you need
-    import { initializeApp }
-      from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-    import {getAuth, createUserWithEmailAndPassword,updateProfile}
-      from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-    import { getAnalytics }
-      from "https://www.gstatic.com/firebasejs/10.12.0/firebase-analytics.js";
-    import { getFirestore, doc, setDoc, getDoc } 
-      from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-    import { onAuthStateChanged } 
-      from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import {
+      getAuth,
+      createUserWithEmailAndPassword,
+      updateProfile,
+      onAuthStateChanged
+    } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+    import {
+      getFirestore,
+      doc,
+      setDoc,
+      getDoc,
+      updateDoc
+    } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-analytics.js";
 
-    // 2. Your web app's Firebase configuration
+    // Firebase config + init
     const firebaseConfig = {
       apiKey: "AIzaSyCyOgBBXIo5C-LtsbrdxZepRZoWeF7r17M",
       authDomain: "majority-report-33739.firebaseapp.com",
@@ -29,28 +32,26 @@
       appId: "1:96713972972:web:ecdba62f0a3c29d01259c9",
       measurementId: "G-Z379S3VVY9"
     };
-
-    // 3. Initialize Firebase
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
     const analytics = getAnalytics(app);
-    const db        = getFirestore(app);
+    const db = getFirestore(app);
 
-    // 4. Once the DOM is ready, wire up our signup form
+    // --- SIGNUP FLOW ---
     document.addEventListener("DOMContentLoaded", () => {
-      const form         = document.getElementById("signup-form");
-      const firstnameIn  = document.getElementById("firstname-input");
-      const emailIn      = document.getElementById("email");
-      const passwordIn   = document.getElementById("password");
+      const form = document.getElementById("signup-form");
+      const firstnameIn = document.getElementById("firstname-input");
+      const emailIn = document.getElementById("email");
+      const passwordIn = document.getElementById("password");
       const errorMessage = document.getElementById("error-message");
 
       form.addEventListener("submit", async e => {
         e.preventDefault();
-        errorMessage.textContent = "";  // clear old errors
+        errorMessage.textContent = "";
 
         const firstname = firstnameIn.value.trim();
-        const email     = emailIn.value.trim();
-        const password  = passwordIn.value;
+        const email = emailIn.value.trim();
+        const password = passwordIn.value;
 
         if (!firstname) {
           errorMessage.textContent = "Please enter your first name.";
@@ -58,17 +59,40 @@
         }
 
         try {
-          // Create the user
+          // 1) Create the user
           const userCred = await createUserWithEmailAndPassword(auth, email, password);
-          await updateProfile(userCred.user, {displayName: firstname});
 
-          const user = userCred.user;
-          alert(`Welcome, ${user.displayName}! Your account (${userCred.user.email}) is ready.`);
-          form.reset();
+          // 2) Set their displayName in Auth
+          await updateProfile(userCred.user, { displayName: firstname });
 
-          // Save username to local storage
+          // 3) Create or update their Firestore doc
+          const uid = userCred.user.uid;
+          const userDocRef = doc(db, "players", uid);
+          const userSnap = await getDoc(userDocRef);
+
+          if (!userSnap.exists()) {
+            // First-time: create with initial values + username
+            await setDoc(userDocRef, {
+              points:      0,
+              level:       0,
+              ids:         [],
+              correct_ans: 0,
+              total_ans:   0,
+              username:    firstname
+            });
+          } else {
+            // Already exists: just update the username
+            await updateDoc(userDocRef, {
+              username: firstname
+            });
+          }
+
+          // 4) Save locally & redirect
           localStorage.setItem('username', firstname);
-          window.location.href = 'home.html'; // Redirect to home page
+          alert(`Welcome, ${firstname}! Your account is ready.`);
+          form.reset();
+          window.location.href = 'home.html';
+
         } catch (err) {
           console.error(err);
           errorMessage.textContent = "Error: " + err.message;
@@ -76,27 +100,30 @@
       });
     });
 
-
+    // --- AUTH STATE MONITOR (optional) ---
     onAuthStateChanged(auth, async user => {
-    if (!user) return;
+      if (!user) return;
 
-    const userDocRef = doc(db, "players", user.uid);
-    const userSnap   = await getDoc(userDocRef);
+      console.log("Auth state changed:", user.uid, user.displayName);
 
-    // only create the document if it doesn't already exist
-    const username_value = user.displayName;
-    if (!userSnap.exists()) {
-      await setDoc(userDocRef, {
-        points:      0,
-        level:       0,
-        ids:         [],
-        correct_ans: 0,
-        total_ans:   0,
-        username: username_value
-      });
-    }
-  });
+      const userDocRef = doc(db, "players", user.uid);
+      const userSnap = await getDoc(userDocRef);
 
+      if (!userSnap.exists()) {
+        await setDoc(userDocRef, {
+          points:      0,
+          level:       0,
+          ids:         [],
+          correct_ans: 0,
+          total_ans:   0,
+          username:    user.displayName || ""
+        });
+      } else {
+        await updateDoc(userDocRef, {
+          username: user.displayName || ""
+        });
+      }
+    });
   </script>
 </head>
 <body>
@@ -124,7 +151,7 @@
       </div>
       <button type="submit">Signup</button>
     </form>
-    <p>Already have an Account? <a href="login.html">login</a></p>
+    <p>Already have an account? <a href="login.html">login</a></p>
   </div>
 </body>
 </html>
