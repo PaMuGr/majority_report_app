@@ -1,7 +1,11 @@
 body{
     /*background-color: #eaeef3;*/
-    background-color: #F9F7F7;
+    background-color: #eaeef3;
     overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    margin: 0;
 }
 h1 {
     font-family: 'Poppins', sans-serif;
@@ -71,13 +75,14 @@ h2 {
     outline-color: #18293b00;
 }
 .go_button{
-    margin: 0 auto; 
+    margin-top: 10px;
     position: relative; 
-    width: 350px;
-    height: 80px;
+    width: 250px;
+    height: 60px;
     background-color: #3F72AF;
     color: #F9F7F7;
     border-radius: 25px;
+    text-align: center;
 }
 .go_button:hover {
     background-color: #112D4E;
@@ -99,6 +104,7 @@ footer {
     background-color: #3F72AF;
     color: #F9F7F7;
     display: block;
+    margin-top: auto; /* Pushes the footer to the bottom */
 }
 
 .author-column {
@@ -116,12 +122,18 @@ footer {
     background: #ffffff;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    flex: 1; /* Ensures the content takes up available space */
   }
 
   .izquierda {
     display: flex;
     flex-direction: column; /* columna vertical */
     gap: 15px;
+  }
+
+  .izquierda h1 {
+    text-align: center;
+    margin: 0 auto;
   }
 
   .derecha {
@@ -141,3 +153,9 @@ footer {
     font-weight: bold;
     min-width: 150px;
   }
+
+    .profile-block {
+        display: block; /* Ensure it takes up the full width */
+        width: 80%; /* Optional: Adjust width to fit the layout */
+        max-width: 600px; /* Limit the maximum width */
+    }
