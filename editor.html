@@ -1,67 +1,117 @@
 <!DOCTYPE html>
-
-
-<!-- AJUDA SOBRE EL CODI DE EDITOR DE PREGUNTES
-Les variables MAX_ANSWERS i MIN_ANSWERS defineixen el màxim i el mínim nombre de respostes, respectivament.
-ja està lol nose
--->
-
-
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Create a prediction</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Create a Prediction</title>
   <link rel="stylesheet" href="css/editor_style.css">
+  <style>
+    .correct-button.active {
+      background-color: #4CAF50;
+      color: white;
+    }
+    .answer.correct input {
+      background-color: #e0ffe0;
+    }
+    .warning-message {
+      color: red;
+      font-size: 16px;
+      display: none;
+      margin-top: 10px;
+    }
+  </style>
 </head>
 <body>
   <nav>    
     <ul class="navigator">
-        <li><a href="home.html" ><img src="graphics/home-icon.png"  height="20"  ></a></li>
-        <li class="align-right">
-            <a href="home.html"> <img src="graphics/user.png" height="20"> </a>
-            <ul class="dropdown">
-                <li><a href="index.html">Log out</a></li>
-            </ul>
-        </li>
-        <li><a href="leaderboard.html"><img src="graphics/bp.png" height="20"></a></li>
+      <li><a href="home.html"><img src="graphics/home-icon.png" height="20"></a></li>
+      <li class="align-right">
+        <a href="home.html"><img src="graphics/user.png" height="20"></a>
+        <ul class="dropdown">
+          <li><a href="index.html">Log out</a></li>
+        </ul>
+      </li>
+      <li><a href="leaderboard.html"><img src="graphics/bp.png" height="20"></a></li>
     </ul>
   </nav>
+
   <div class="form-container">
-    <h1>Create a Prediction</h1>
-    <br> 
+    <h1>Create a Prediction</h1><br>
+
     <div class="form-group">
       <label for="question">Question:</label>
       <input type="text" id="question" placeholder="Enter your question here">
-    </div>
-    <br>
+    </div><br>
+
     <p>Answers:</p>
-    <div class="answers-container" id="answers-container">
-      <!-- Dynamic answers will be added here -->
-    </div>
+    <div class="answers-container" id="answers-container"></div>
+    <button id="add-answer-button" class="correct-button">+</button><br><br><br>
 
-    <!-- Add button for adding new answers -->
-    <button id="add-answer-button" class="correct-button">+</button>
-
-    <br> <br> <br>
-
-    <!-- Section for inputting the number of days -->
     <div class="form-group">
       <label for="days-open">Number of days the question will remain open:</label>
       <input type="number" id="days-open" min="1" max="365" placeholder="Enter number of days">
-    </div>
-    <br>
+    </div><br>
+
+    <div style="height:10px;"></div>
+    <button id="publish-button" class="correct-button" disabled>Publish Question</button>
+    <div id="warning-message" class="warning-message">You must fill all fields and be logged in to publish a prediction!</div>
   </div>
 
-  <script>
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+    import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyCyOgBBXIo5C-LtsbrdxZepRZoWeF7r17M",
+      authDomain: "majority-report-33739.firebaseapp.com",
+      projectId: "majority-report-33739",
+      storageBucket: "majority-report-33739.appspot.com",
+      messagingSenderId: "96713972972",
+      appId: "1:96713972972:web:ecdba62f0a3c29d01259c9",
+      measurementId: "G-Z379S3VVY9"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    let currentUser = null;
+
     const answersContainer = document.getElementById('answers-container');
     const questionInput = document.getElementById('question');
     const addAnswerButton = document.getElementById('add-answer-button');
     const daysOpenInput = document.getElementById('days-open');
-    const MAX_ANSWERS = 4; // Max num of answ
-    const MIN_ANSWERS = 2; // Min num of answ
+    const publishButton = document.getElementById('publish-button');
+    const warningMessage = document.getElementById('warning-message');
 
-    // Function to create a new answer container
+    const MAX_ANSWERS = 4;
+    const MIN_ANSWERS = 2;
+
+    function updatePublishButtonState() {
+      const allAnswersFilled = Array.from(answersContainer.querySelectorAll('input[type="text"]'))
+        .every(input => input.value.trim() !== '');
+      const questionFilled = questionInput.value.trim() !== '';
+      const correctAnswerSelected = answersContainer.querySelector('.correct-button.active') !== null;
+      const daysOpenValid = daysOpenInput.value.trim() !== '' && daysOpenInput.value <= 365;
+
+      const formValid = currentUser && allAnswersFilled && questionFilled && correctAnswerSelected && daysOpenValid;
+
+      publishButton.disabled = !formValid;
+      warningMessage.style.display = formValid ? 'none' : 'block'; // Show warning if not eligible
+    }
+
+    function updateAddButtonState() {
+      addAnswerButton.disabled = answersContainer.children.length >= MAX_ANSWERS;
+    }
+
+    function updatePlaceholders() {
+      const inputs = answersContainer.querySelectorAll('input[type="text"]');
+      inputs.forEach((input, index) => {
+        input.placeholder = `Answer ${index + 1}`;
+      });
+    }
+
     function createAnswerContainer() {
       if (answersContainer.children.length >= MAX_ANSWERS) return;
 
@@ -75,19 +125,17 @@ ja està lol nose
 
       const correctButton = document.createElement('button');
       correctButton.textContent = 'Mark as Correct';
+      correctButton.classList.add('correct-button');
       correctButton.addEventListener('click', () => {
-        // Unmark all other buttons
-        const allButtons = answersContainer.querySelectorAll('.correct-button');
-        allButtons.forEach(button => button.classList.remove('active'));
-
-        // Mark this button as active
+        answersContainer.querySelectorAll('.correct-button').forEach(btn => btn.classList.remove('active'));
+        answersContainer.querySelectorAll('.answer').forEach(div => div.classList.remove('correct'));
         correctButton.classList.add('active');
+        answerDiv.classList.add('correct');
         updatePublishButtonState();
       });
-      correctButton.classList.add('correct-button');
 
       const deleteButton = document.createElement('button');
-      deleteButton.textContent = '-'; // Minus sign
+      deleteButton.textContent = '-';
       deleteButton.addEventListener('click', () => {
         if (answersContainer.children.length > MIN_ANSWERS) {
           answerDiv.remove();
@@ -106,59 +154,59 @@ ja està lol nose
       updatePublishButtonState();
     }
 
-    // Function to update placeholders after removing an answer
-    function updatePlaceholders() {
-      const answerInputs = answersContainer.querySelectorAll('input[type="text"]');
-      answerInputs.forEach((input, index) => {
-        input.placeholder = `Answer ${index + 1}`;
-      });
-    }
-
-    // Function to enable/disable the "Add" button based on the number of answers
-    function updateAddButtonState() {
-      addAnswerButton.disabled = answersContainer.children.length >= MAX_ANSWERS;
-    }
-
-    // Function to enable/disable the "Publish Question" button
-    function updatePublishButtonState() {
-      const allAnswersFilled = Array.from(answersContainer.querySelectorAll('input[type="text"]'))
-        .every(input => input.value.trim() !== '');
-      const questionFilled = questionInput.value.trim() !== '';
-      const correctAnswerSelected = answersContainer.querySelector('.correct-button.active') !== null;
-      const daysOpenValid = daysOpenInput.value.trim() !== '' && daysOpenInput.value <= 365;
-
-      publishButton.disabled = !(allAnswersFilled && questionFilled && correctAnswerSelected && daysOpenValid);
-    }
-
-    // Add event listener to the "Add Answer" button
-    addAnswerButton.addEventListener('click', createAnswerContainer);
-
-    // Add "Publish Question" button
-    const publishButton = document.createElement('button');
-    publishButton.textContent = 'Publish Question';
-    publishButton.disabled = true; // Initially disabled
-    publishButton.classList.add('correct-button'); // Apply the same style
-    publishButton.addEventListener('click', () => {
-      alert('Question published successfully!');
-    });
-
-    // Add some spacing before the publish button
-    const spacing = document.createElement('div');
-    spacing.style.height = '10px'; // Add vertical spacing
-    document.querySelector('.form-container').appendChild(spacing);
-
-    document.querySelector('.form-container').appendChild(publishButton);
-
-    // Initialize with two default answer containers
     while (answersContainer.children.length < MIN_ANSWERS) {
       createAnswerContainer();
     }
 
-    // Add event listener to the question input to update the publish button state
+    addAnswerButton.addEventListener('click', createAnswerContainer);
     questionInput.addEventListener('input', updatePublishButtonState);
-
-    // Add event listener to the "days-open" input to update the publish button state
     daysOpenInput.addEventListener('input', updatePublishButtonState);
+
+    publishButton.addEventListener('click', async () => {
+      const question = questionInput.value.trim();
+      const answerDivs = Array.from(answersContainer.querySelectorAll('.answer'));
+
+      const answers = answerDivs.map(div => div.querySelector('input').value.trim());
+
+      const votes = answerDivs.map(() => 0); // One zero per answer
+      
+      const days = parseInt(daysOpenInput.value, 10);
+
+      const closesAt = new Date();
+      closesAt.setDate(closesAt.getDate() + days);
+
+      try {
+        await addDoc(collection(db, "predictions"), {
+          question,
+          answers,
+          user: currentUser.displayName,
+          votes,
+          createdAt: serverTimestamp(),
+          closesAt
+        });
+        alert("Prediction published successfully!");
+        questionInput.value = '';
+        daysOpenInput.value = '';
+        answersContainer.innerHTML = '';
+        while (answersContainer.children.length < MIN_ANSWERS) createAnswerContainer();
+        updatePublishButtonState();
+      } catch (err) {
+        console.error("Error saving to Firestore:", err);
+        alert("Failed to publish question.");
+      }
+    });
+
+    // Wait for authentication
+    onAuthStateChanged(auth, user => {
+      if (user) {
+        currentUser = user;
+        updatePublishButtonState();
+        console.log("User logged in:", user.email);
+      } else {
+        alert("You must be logged in to create a prediction.");
+        window.location.href = "index.html";
+      }
+    });
   </script>
 </body>
 </html>

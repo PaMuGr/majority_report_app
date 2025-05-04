@@ -171,11 +171,9 @@
       const answers = JSON.parse(post.dataset.answers);
       let votes     = JSON.parse(post.dataset.votes);
 
-      // 2a) Bump the vote you clicked
       const idx = Array.from(post.querySelectorAll('button')).indexOf(btn);
       votes[idx]++;
 
-      // 2b) Write updated votes back to Firestore
       try {
         await updateDoc(doc(db, "predictions", qid), { votes });
       } catch (e) {
@@ -183,55 +181,52 @@
       }
       post.dataset.votes = JSON.stringify(votes);
 
-      // 2c) Check if your choice is one of the max-voted
       const maxVote = Math.max(...votes);
       const gotIt   = votes[idx] === maxVote;
 
       await updateDoc(
-          doc(db, "players", currentUser.uid),
-          { ids: arrayUnion(qid) },
-        ).catch(e => console.error("Failed to add id.", e));
+        doc(db, "players", currentUser.uid),
+        { ids: arrayUnion(qid) }
+      ).catch(e => console.error("Failed to add id.", e));
 
-      // 2d) If correct, bump your points by 100
       if (gotIt) {
         await updateDoc(
           doc(db, "players", currentUser.uid),
-          { points: increment(100) },
+          { points: increment(100) }
         ).catch(e => console.error("Failed to update points.", e));
       }
 
-      // 2e) Animate and color
-      const total    = votes.reduce((a,b)=>a+b,0) || 1;
-      const buttons  = Array.from(post.querySelectorAll('button'));
-      const duration = 800, frameRate = 30;
-      const steps    = Math.ceil(duration/frameRate);
+      // Animation and coloring
+      const totalVotes = votes.reduce((a, b) => a + b, 0);
+      const buttons    = Array.from(post.querySelectorAll('button'));
+      const duration   = 800, frameRate = 30;
+      const steps      = Math.ceil(duration / frameRate);
 
-      // disable & mark
-      buttons.forEach((b,i) => {
+      buttons.forEach((b, i) => {
         b.disabled = true;
         if (votes[i] === maxVote) b.classList.add("correct");
         else                      b.classList.add("incorrect");
       });
 
-      // count-up animation
-      buttons.forEach((b,i) => {
+      buttons.forEach((b, i) => {
         let step = 0;
-        const target = votes[i]/total*100;
-        const inc    = target/steps;
-        const timer  = setInterval(() => {
+        const percentage = totalVotes > 0 ? (votes[i] / totalVotes) * 100 : 0;
+        const increment  = percentage / steps;
+
+        const timer = setInterval(() => {
           step++;
-          const pct = Math.min(inc*step, target);
+          const pct = Math.min(increment * step, percentage);
           b.textContent = `${answers[i]} (${pct.toFixed(1)}%)`;
-          if (step>=steps) clearInterval(timer);
+          if (step >= steps) clearInterval(timer);
         }, frameRate);
       });
 
-      // 2f) Scroll on
       setTimeout(() => {
         const next = post.nextElementSibling;
         if (next) next.scrollIntoView({ behavior: 'smooth' });
       }, duration + 900);
     }
+
 
     // 3) Render all posts
     function renderAll(posts) {
