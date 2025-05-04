@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Majority Report</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { height: 100%; overflow: hidden; font-family: Arial, sans-serif; background: #111; color: #fff; }
+
+    /* Taskbar */
+    .taskbar { position: fixed; top: 0; left: 0; width: 100%; height: 50px; background: #222; border-bottom: 1px solid #0f0;
+      display: flex; align-items: center; justify-content: space-between; padding: 0 1rem; z-index: 1000; }
+    .back-btn { background: transparent; border: 1px solid #0f0; color: #0f0; padding: 6px 12px; border-radius: 4px;
+      cursor: pointer; font-size: 1.1rem; transition: box-shadow 0.2s; }
+    .back-btn:hover { box-shadow: 0 0 8px #0f0; }
+
+    /* Level dropdown */
+    .level-dropdown { position: relative; font-family: Courier, monospace; font-size: 1.1rem; color: #0f0; user-select: none; }
+    .level-dropdown::after { content: " ▼"; font-size: 0.8rem; }
+    .dropdown-content { display: none; position: absolute; right: 0; top: 110%; background: #222; border: 1px solid #0f0;
+      border-radius: 4px; width: 200px; box-shadow: 0 2px 8px rgba(0,255,0,0.5); z-index: 1001; }
+    .level-dropdown:hover .dropdown-content { display: block; }
+    .dropdown-content .item { padding: 0.5rem 1rem; font-size: 0.9rem; border-bottom: 1px solid #0f0; }
+    .dropdown-content .item:last-child { border-bottom: none; }
+
+    /* Feed */
+    #feed { position: absolute; top: 50px; bottom: 0; left: 0; right: 0;
+      overflow-y: auto; scroll-snap-type: y mandatory; scrollbar-width: none; }
+    #feed::-webkit-scrollbar { width: 0; height: 0; }
+
+    /* Posts */
+    .post { position: relative; height: 100vh; scroll-snap-align: start;
+      display: flex; flex-direction: column; align-items: center; justify-content: center; padding-top: 3rem; }
+    .post:nth-child(odd)  { background: #1f1f1f; }
+    .post:nth-child(even) { background: #2e2e2e; }
+
+    .username { position: absolute; top: 1rem; left: 1rem; background: rgba(0,0,0,0.6);
+      padding: 0.4rem 0.8rem; border: 1px solid #0f0; border-radius: 4px;
+      font-size: 1rem; font-family: Courier, monospace; color: #0f0; }
+    .post-title { font-size: 3rem; font-weight: bold; color: #0f0; margin-bottom: 20px;
+      text-align: center; padding: 0 1rem; }
+
+    /* Command box */
+    .cmd-box { display: grid; grid-template: 1fr 1fr / 1fr 1fr; gap: 2px;
+      width: 80%; max-width: 800px; height: 50vh; background: #000; border: 2px solid #0f0;
+      box-shadow: 0 0 10px rgba(0,255,0,0.5); font-family: Courier, monospace; overflow: hidden; }
+    .cmd-box button { box-sizing: border-box; width: 100%; height: 100%; background: #333;
+      border: 1px solid #0f0; color: #0f0; font-size: 1.2rem; padding: 0.8rem;
+      display: flex; align-items: center; justify-content: center; cursor: pointer;
+      transition: background-color 0.2s, color 0.2s; text-align: left; }
+    .cmd-box button:hover { background: #0f0; color: #000; }
+
+    /* End-of-feed message */
+    .end-message { font-size: 2rem; color: #0f0; text-align: center; padding: 2rem; }
+    /* … (your existing CSS unchanged) … */
+    .cmd-box button.correct { color: rgb(0, 151, 0); }
+    .cmd-box button.incorrect { color: #f00; }
+  </style>
+</head>
+<body>
+  <div class="taskbar">
+    <button class="back-btn" onclick="history.back()">← Back</button>
+    <div class="level-dropdown">
+      Level: <span id="level-display">0</span>
+      <div class="dropdown-content">
+        <div class="item"><strong>Username:</strong> <span id="user-display">guest</span></div>
+        <div class="item"><strong>Level:</strong> <span id="level-dropdown-display">0</span></div>
+        <div class="item"><strong>Points:</strong> <span id="points-dropdown-display">0</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="feed"></div>
+
+  <script type="module">
+    import { initializeApp }     from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import {
+      getFirestore, collection, getDoc, getDocs,
+      doc, updateDoc, increment, onSnapshot, arrayUnion
+    }                             from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+    import {
+      getAuth,
+      signInAnonymously,
+      onAuthStateChanged
+    }                             from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+    // --- Firebase init ---
+    const app = initializeApp({
+      apiKey: "AIzaSyCyOgBBXIo5C-LtsbrdxZepRZoWeF7r17M",
+      authDomain: "majority-report-33739.firebaseapp.com",
+      projectId: "majority-report-33739",
+      storageBucket: "majority-report-33739.appspot.com",
+      messagingSenderId: "96713972972",
+      appId: "1:96713972972:web:ecdba62f0a3c29d01259c9",
+      measurementId: "G-Z379S3VVY9"
+    });
+    const db   = getFirestore(app);
+    const auth = getAuth(app);
+    let currentUser = null;
+
+    document.addEventListener('DOMContentLoaded', () => {
+      onAuthStateChanged(auth, async user => {
+        if (!user) return;
+
+        currentUser = user;
+
+        // Optional: ensure user doc exists
+        const profileRef = doc(db, "players", user.uid);
+        onSnapshot(profileRef, snap => {
+          if (!snap.exists()) return;
+          const data = snap.data();
+          document.getElementById("user-display").textContent = user.displayName ?? "guest";
+          document.getElementById("level-display").textContent = Math.floor(0.1 * Math.sqrt(data.points)) ?? 0;
+          document.getElementById("level-dropdown-display").textContent = Math.floor(0.1 * Math.sqrt(data.points)) ?? 0;
+          document.getElementById("points-dropdown-display").textContent = data.points ?? 0;
+        });
+
+        const preds = await fetchAll();
+        renderAll(preds);
+        installScrollGuards();
+      });
+    });
+
+    const feed = document.getElementById('feed');
+
+    // 1) Fetch all docs including votes & id
+    async function fetchAll() {
+      // 1) Try to load the player's seen IDs array
+      let seenIds = [];
+      try {
+        const userRef  = doc(db, "players", currentUser.uid);
+        const userSnap = await getDoc(userRef);
+        // safe optional chaining + default to empty array
+        seenIds = userSnap.data()?.ids ?? [];
+      } catch (e) {
+        console.warn("Could not load player IDs, defaulting to empty array:", e);
+        seenIds = [];
+      }
+
+      // 2) Fetch all predictions
+      const snap = await getDocs(collection(db, "predictions"));
+
+      // 3) Filter out seen ones only if seenIds is non-empty
+      return snap.docs
+        .filter(d => {
+          // If seenIds is empty, this will always return true
+          return !seenIds.includes(d.id);
+        })
+        .map(d => {
+          const data = d.data();
+          return {
+            id:       d.id,
+            question: data.question ?? "(no question)",
+            answers:  data.answers  ?? [],
+            votes:    Array.isArray(data.votes) ? data.votes : [],
+            user:     data.user     ?? "anonymous"
+          };
+        });
+    }
+
+    // 2) Handle an answer click
+    async function onAnswerClick(btn) {
+      if (!currentUser) {
+        alert("Signing in… please try again in a moment.");
+        return;
+      }
+
+      const post    = btn.closest('.post');
+      const qid     = post.dataset.id;
+      const answers = JSON.parse(post.dataset.answers);
+      let votes     = JSON.parse(post.dataset.votes);
+
+      // 2a) Bump the vote you clicked
+      const idx = Array.from(post.querySelectorAll('button')).indexOf(btn);
+      votes[idx]++;
+
+      // 2b) Write updated votes back to Firestore
+      try {
+        await updateDoc(doc(db, "predictions", qid), { votes });
+      } catch (e) {
+        console.error("Failed to update votes:", e);
+      }
+      post.dataset.votes = JSON.stringify(votes);
+
+      // 2c) Check if your choice is one of the max-voted
+      const maxVote = Math.max(...votes);
+      const gotIt   = votes[idx] === maxVote;
+
+      await updateDoc(
+          doc(db, "players", currentUser.uid),
+          { ids: arrayUnion(qid) },
+        ).catch(e => console.error("Failed to add id.", e));
+
+      // 2d) If correct, bump your points by 100
+      if (gotIt) {
+        await updateDoc(
+          doc(db, "players", currentUser.uid),
+          { points: increment(100) },
+        ).catch(e => console.error("Failed to update points.", e));
+      }
+
+      // 2e) Animate and color
+      const total    = votes.reduce((a,b)=>a+b,0) || 1;
+      const buttons  = Array.from(post.querySelectorAll('button'));
+      const duration = 800, frameRate = 30;
+      const steps    = Math.ceil(duration/frameRate);
+
+      // disable & mark
+      buttons.forEach((b,i) => {
+        b.disabled = true;
+        if (votes[i] === maxVote) b.classList.add("correct");
+        else                      b.classList.add("incorrect");
+      });
+
+      // count-up animation
+      buttons.forEach((b,i) => {
+        let step = 0;
+        const target = votes[i]/total*100;
+        const inc    = target/steps;
+        const timer  = setInterval(() => {
+          step++;
+          const pct = Math.min(inc*step, target);
+          b.textContent = `${answers[i]} (${pct.toFixed(1)}%)`;
+          if (step>=steps) clearInterval(timer);
+        }, frameRate);
+      });
+
+      // 2f) Scroll on
+      setTimeout(() => {
+        const next = post.nextElementSibling;
+        if (next) next.scrollIntoView({ behavior: 'smooth' });
+      }, duration + 900);
+    }
+
+    // 3) Render all posts
+    function renderAll(posts) {
+          posts.forEach(q => {
+            const post = document.createElement('div');
+            post.className        = 'post';
+            post.dataset.id       = q.id;
+            post.dataset.answers = JSON.stringify(q.answers);
+            post.dataset.votes   = JSON.stringify(q.votes);
+
+            post.innerHTML = `
+              <div class="username">@${q.user}</div>
+              <div class="post-title">${q.question}</div>
+              <div class="cmd-box">
+                ${q.answers.map(a => `<button>${a}</button>`).join("")}
+              </div>
+            `;
+            post.querySelectorAll('button')
+                .forEach(b => b.addEventListener('click', () => onAnswerClick(b)));
+
+            feed.appendChild(post);
+          });
+
+          const end = document.createElement('div');
+          end.className   = 'post end-message';
+          end.textContent = "✨ You've reached the end of the feed ✨";
+          feed.appendChild(end);
+        }
+
+        // 4) Prevent upward scroll & enable keyboard nav
+        function installScrollGuards() {
+      const feed = document.getElementById('feed');
+      let lastScrollTop = 0;
+
+      // 1. Prevent upward scrolling with the wheel
+      feed.addEventListener('wheel', e => {
+        if (e.deltaY < 0) {
+          e.preventDefault();
+        }
+      }, { passive: false });
+
+      // 2. Prevent key-based upward scrolling, plus smooth next-post navigation
+      document.addEventListener('keydown', e => {
+        if (['ArrowUp','PageUp','Home'].includes(e.key)) {
+          e.preventDefault();
+          return;
+        }
+        if (['ArrowDown','PageDown'].includes(e.key)) {
+          e.preventDefault();
+          // Find closest post and scroll to the next
+          const posts = Array.from(document.querySelectorAll('.post'));
+          const scrollTop = feed.scrollTop;
+          let closest = posts[0], minDiff = Infinity;
+          posts.forEach(p => {
+            const d = Math.abs(p.offsetTop - scrollTop);
+            if (d < minDiff) {
+              minDiff = d;
+              closest = p;
+            }
+          });
+          const next = closest.nextElementSibling;
+          if (next) {
+            next.scrollIntoView({ behavior: 'smooth' });
+          }
+        }
+      });
+
+      // 3. On any scroll (including programmatic), enforce no going backwards
+      feed.addEventListener('scroll', () => {
+        const current = feed.scrollTop;
+        if (current < lastScrollTop) {
+          // If they tried to scroll up, snap back down
+          feed.scrollTop = lastScrollTop;
+        } else {
+          // Otherwise update our last allowed position
+          lastScrollTop = current;
+        }
+      });
+    }
+
+  </script>
+</body>
+</html>

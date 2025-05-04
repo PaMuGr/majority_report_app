@@ -40,7 +40,7 @@
           const user = userCredential.user;
           alert(`Welcome back, ${user.email}`);
           // Optional redirect:
-          // window.location.href = "dashboard.html";
+          window.location.href = "prediction_scroll.html";
         } catch (error) {
           errorMessage.textContent = "Login failed: " + error.message;
         }
