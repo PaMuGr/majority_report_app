@@ -9,7 +9,7 @@ body {
 .profile-block {
   width: 420px; 
   margin: 50px 100px;
-  background-color: #fff;
+  background-color: #DBE2EF;
   border-radius: 10px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   border: 1px solid #ddd;
@@ -31,7 +31,7 @@ body {
 }
 
 .progress-container {
-  background-color: #e0e0e0;
+  background-color: #3F72AF;
   border-radius: 20px;
   height: 16px;
   width: 100%;
@@ -68,7 +68,7 @@ body {
 .stat-item {
   flex: 1;
   padding: 10px;
-  background: #f8f9fa;
+  background: #F9F7F7;
   margin: 0 5px;
   border-radius: 8px;
   border: 1px solid #e0e0e0;
