@@ -186,13 +186,13 @@
 
       await updateDoc(
         doc(db, "players", currentUser.uid),
-        { ids: arrayUnion(qid) }
+        { ids: arrayUnion(qid), total_ans: increment(1) }
       ).catch(e => console.error("Failed to add id.", e));
 
       if (gotIt) {
         await updateDoc(
           doc(db, "players", currentUser.uid),
-          { points: increment(100) }
+          { points: increment(100), correct_ans: increment(1) }
         ).catch(e => console.error("Failed to update points.", e));
       }
 
