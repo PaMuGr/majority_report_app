@@ -58,5 +58,5 @@ Marcel Grau - The Firebase Shaman
 Pau Muras - The Css Designer  
 Feel free to reach out! (mails on the footer of the web)  
 
-## License
+## 🧾 License
 MIT License © 2025 Majority Report
