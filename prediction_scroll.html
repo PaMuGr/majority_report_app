@@ -6,22 +6,22 @@
   <title>Majority Report</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    html, body { height: 100%; overflow: hidden; font-family: Arial, sans-serif; background: #111; color: #fff; }
+    html, body { height: 100%; overflow: hidden; font-family: sans-serif, Arial; background: #F9F7F7; color: #fff; }
 
     /* Taskbar */
-    .taskbar { position: fixed; top: 0; left: 0; width: 100%; height: 50px; background: #222; border-bottom: 1px solid #0f0;
+    .taskbar { position: fixed; top: 0; left: 0; width: 100%; height: 50px; background: #3F72AF; border-bottom: 1px solid #DBE2EF;
       display: flex; align-items: center; justify-content: space-between; padding: 0 1rem; z-index: 1000; }
-    .back-btn { background: transparent; border: 1px solid #0f0; color: #0f0; padding: 6px 12px; border-radius: 4px;
+    .back-btn { background: transparent; border: 1px solid #DBE2EF; color: #DBE2EF; padding: 6px 12px; border-radius: 4px;
       cursor: pointer; font-size: 1.1rem; transition: box-shadow 0.2s; }
-    .back-btn:hover { box-shadow: 0 0 8px #0f0; }
+    .back-btn:hover { box-shadow: 0 0 8px #DBE2EF; }
 
     /* Level dropdown */
-    .level-dropdown { position: relative; font-family: Courier, monospace; font-size: 1.1rem; color: #0f0; user-select: none; }
+    .level-dropdown { position: relative; font-family: sans-serif, monospace; font-size: 1.1rem; color: #DBE2EF; user-select: none; }
     .level-dropdown::after { content: " ▼"; font-size: 0.8rem; }
-    .dropdown-content { display: none; position: absolute; right: 0; top: 110%; background: #222; border: 1px solid #0f0;
-      border-radius: 4px; width: 200px; box-shadow: 0 2px 8px rgba(0,255,0,0.5); z-index: 1001; }
+    .dropdown-content { display: none; position: absolute; right: 0; top: 110%; background: #3F72AF; border: 1px solid #DBE2EF;
+      border-radius: 4px; width: 200px; box-shadow: 0 2px 8px #112D4E; z-index: 1001; }
     .level-dropdown:hover .dropdown-content { display: block; }
-    .dropdown-content .item { padding: 0.5rem 1rem; font-size: 0.9rem; border-bottom: 1px solid #0f0; }
+    .dropdown-content .item { padding: 0.5rem 1rem; font-size: 0.9rem; border-bottom: 1px solid #DBE2EF; }
     .dropdown-content .item:last-child { border-bottom: none; }
 
     /* Feed */
@@ -32,27 +32,27 @@
     /* Posts */
     .post { position: relative; height: 100vh; scroll-snap-align: start;
       display: flex; flex-direction: column; align-items: center; justify-content: center; padding-top: 3rem; }
-    .post:nth-child(odd)  { background: #1f1f1f; }
-    .post:nth-child(even) { background: #2e2e2e; }
+    .post:nth-child(odd)  { background: #F9F7F7; }
+    .post:nth-child(even) { background: #E0DEDE; }
 
-    .username { position: absolute; top: 1rem; left: 1rem; background: rgba(0,0,0,0.6);
-      padding: 0.4rem 0.8rem; border: 1px solid #0f0; border-radius: 4px;
-      font-size: 1rem; font-family: Courier, monospace; color: #0f0; }
-    .post-title { font-size: 3rem; font-weight: bold; color: #0f0; margin-bottom: 20px;
+    .username { position: absolute; top: 1rem; left: 1rem; background: #F9F7F7;
+      padding: 0.4rem 0.8rem; border: 1px solid #3F72AF; border-radius: 4px;
+      font-size: 1rem; font-family: sans-serif, monospace; color: #3F72AF; }
+    .post-title { font-size: 3rem; font-weight: bold; color: #000; margin-bottom: 20px;
       text-align: center; padding: 0 1rem; }
 
     /* Command box */
     .cmd-box { display: grid; grid-template: 1fr 1fr / 1fr 1fr; gap: 2px;
-      width: 80%; max-width: 800px; height: 50vh; background: #000; border: 2px solid #0f0;
-      box-shadow: 0 0 10px rgba(0,255,0,0.5); font-family: Courier, monospace; overflow: hidden; }
-    .cmd-box button { box-sizing: border-box; width: 100%; height: 100%; background: #333;
-      border: 1px solid #0f0; color: #0f0; font-size: 1.2rem; padding: 0.8rem;
+      width: 80%; max-width: 800px; height: 50vh; background: #F9F7F7; border: 2px solid #3F72AF;
+      box-shadow: 0 0 10px #112D4E; font-family: sans-serif, monospace; overflow: hidden; }
+    .cmd-box button { box-sizing: border-box; width: 100%; height: 100%; background: #DBE2EF;
+      border: 1px solid #3F72AF; color: #000; font-size: 1.2rem; padding: 0.8rem;
       display: flex; align-items: center; justify-content: center; cursor: pointer;
       transition: background-color 0.2s, color 0.2s; text-align: left; }
-    .cmd-box button:hover { background: #0f0; color: #000; }
+    .cmd-box button:hover { background: #3F72AF; color: #F9F7F7; }
 
     /* End-of-feed message */
-    .end-message { font-size: 2rem; color: #0f0; text-align: center; padding: 2rem; }
+    .end-message { font-size: 2rem; color: #000; text-align: center; padding: 2rem; }
     /* … (your existing CSS unchanged) … */
     .cmd-box button.correct { color: rgb(0, 151, 0); }
     .cmd-box button.incorrect { color: #f00; }
