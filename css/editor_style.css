@@ -18,6 +18,37 @@ input {
   margin-top: 15px;
 }
 
+:root {
+  --footer-bg: #3F72AF;
+  --footer-text: #F9F7F7;
+  --link-color: #112D4E;
+}
+
+.site-footer {
+  background-color: var(--footer-bg);
+  color: var(--footer-text);
+  padding: 10px 20px;
+  font-size: 0.85rem;
+  text-align: center;
+}
+
+.authors-inline {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
+
+.authors-inline a {
+  color: var(--link-color);
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.authors-inline a:hover {
+  color: #0b1d33;
+}
+
 .navigator{
   list-style: none;
   background: #3F72AF;
