@@ -102,6 +102,9 @@ h2 {
     --footer-bg: #3F72AF;
     --footer-text: #F9F7F7;
     --link-color: #112D4E;
+    --accent-color: #3F72AF;
+    --text-color: #112D4E;
+      
   }
   
   .site-footer {
@@ -171,8 +174,75 @@ h2 {
     min-width: 150px;
   }
 
-    .profile-block {
-        display: block; /* Ensure it takes up the full width */
-        width: 80%; /* Optional: Adjust width to fit the layout */
-        max-width: 600px; /* Limit the maximum width */
-    }
+.profile-block {
+    display: block; /* Ensure it takes up the full width */
+    width: 80%; /* Optional: Adjust width to fit the layout */
+    max-width: 600px; /* Limit the maximum width */
+}
+
+.center-buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+    margin: 3rem 0;
+  }
+  
+  .button-primary,
+  .button-secondary {
+    padding: 0.9rem 3rem;
+    border: none;
+    border-radius: 30px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 1rem;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  
+  /* Primary: filled with accent */
+  .button-primary {
+    background-color: var(--accent-color);
+    color: white;
+  }
+  
+  .button-primary:hover {
+    background-color: #112D4E;
+  }
+  
+  /* Secondary: outlined */
+  .button-secondary {
+    background-color: transparent;
+    color: var(--accent-color);
+    border: 2px solid var(--accent-color);
+  }
+  
+  .button-secondary:hover {
+    background-color: var(--accent-color);
+    color: white;
+  }
+  
+  html, body {
+    height: 100%;
+    margin: 0;
+  }
+  
+  .page-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+  
+  main {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center; /* Optional: vertically center content */
+    padding: 2rem;
+  }
+  
+  
+  
+  
