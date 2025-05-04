@@ -48,6 +48,7 @@ majority_report/
 │   ├── editor.html  
 │   └── ...          
 └── index.html       
+```
 
 ## 📞 Contact  
 Created by:  
