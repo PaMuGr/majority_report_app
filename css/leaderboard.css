@@ -1,0 +1,173 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;900&display=swap');
+.leaderboard-block {
+    margin-left: 450px; 
+    margin-right: 450px; 
+    margin-bottom: 50px; 
+    height: 450px;
+    padding: 0px;
+    border: 2px solid #333;
+    border-radius: 20px;
+    background-color: #f4f4f4;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    font-family: 'Poppins', sans-serif;
+
+    
+  }
+
+.leaderboard-block h2 {
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+  .leaderboard-list {
+    scrollbar-width: none;
+    list-style-type: none;
+    padding: 0;
+    max-height: 450px; /* Set fixed height */
+    overflow-y: auto;  /* Enable vertical scroll */
+    border: 0px solid #ccc;
+    border-radius: 20px;
+    background: #fff;
+  }
+
+  .leaderboard-list li {
+    padding: 20px;
+    margin: 0;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .leaderboard-list li:last-child {
+    border-bottom: none;
+  }
+
+  .rank {
+    font-weight: bold;
+  }
+
+  .name {
+    flex-grow: 1;
+    margin-left: 10px;
+  }
+
+  .score {
+    font-weight: bold;
+    color: #007bff;
+  }
+  .bloque-dorado {
+    position: relative;
+    padding: 20px 40px;
+    background-color: #ffd700;
+    color: #333;
+    border-radius: 10px;
+    font-weight: bold;
+    font-size: 1.2em;
+    text-align: center;
+    overflow: hidden;
+    box-shadow: 0 0 6px #d4af37;
+    animation: brilloDorado 3s infinite alternate;
+  }
+
+  @keyframes brilloDorado {
+    0% {
+      box-shadow: 0 0 4px #d4af37, 0 0 6px #f5d76e;
+      background-color: #ffd700;
+    }
+    50% {
+      box-shadow: 0 0 10px #e0c55b, 0 0 14px #ffec8b;
+      background-color: #ffe066;
+    }
+    100% {
+      box-shadow: 0 0 4px #d4af37, 0 0 6px #f5d76e;
+      background-color: #ffd700;
+    }
+  }
+
+  .bloque-plateado {
+    position: relative;
+    padding: 20px 40px;
+    background-color: #dcdcdc; /* Gris claro tipo plata */
+    color: #333;
+    border-radius: 10px;
+    font-weight: bold;
+    font-size: 1.2em;
+    text-align: center;
+    overflow: hidden;
+    box-shadow: 0 0 6px #b0b0b0;
+    animation: brilloPlateado 3s infinite alternate;
+  }
+
+  @keyframes brilloPlateado {
+    0% {
+      box-shadow: 0 0 4px #b0b0b0, 0 0 6px #eeeeee;
+      background-color: #dcdcdc;
+    }
+    50% {
+      box-shadow: 0 0 10px #c8c8c8, 0 0 14px #ffffff;
+      background-color: #f0f0f0;
+    }
+    100% {
+      box-shadow: 0 0 4px #b0b0b0, 0 0 6px #eeeeee;
+      background-color: #dcdcdc;
+    }
+  }
+
+  .bloque-bronce {
+    position: relative;
+    padding: 20px 40px;
+    background-color: #cd7f32; /* Bronce base */
+    color: #fff;
+    border-radius: 10px;
+    font-weight: bold;
+    font-size: 1.2em;
+    text-align: center;
+    overflow: hidden;
+    box-shadow: 0 0 6px #a56629;
+    animation: brilloBronce 3s infinite alternate;
+  }
+
+  @keyframes brilloBronce {
+    0% {
+      box-shadow: 0 0 4px #a56629, 0 0 6px #ffbb7c;
+      background-color: #cd7f32;
+    }
+    50% {
+      box-shadow: 0 0 10px #d48b42, 0 0 16px #ffcc99;
+      background-color: #e08a47;
+    }
+    100% {
+      box-shadow: 0 0 4px #a56629, 0 0 6px #ffbb7c;
+      background-color: #cd7f32;
+    }
+  }
+
+  /* ✨ Glint effect - más sutil */
+  .glint {
+    position: absolute;
+    top: 0;
+    left: -75%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(
+      120deg,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(255, 255, 255, 0.25) 50%,
+      rgba(255, 255, 255, 0) 100%
+    );
+    transform: skewX(-20deg);
+    animation: glintMove 5s infinite;
+    animation-delay: 2s;
+  }
+
+  @keyframes glintMove {
+    0% {
+      left: -75%;
+    }
+    10% {
+      left: 100%;
+    }
+    100% {
+      left: 100%;
+    }
+  }
