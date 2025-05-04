@@ -98,20 +98,37 @@ h2 {
     border-radius: 25px;
 }
 
-footer {
+:root {
+    --footer-bg: #3F72AF;
+    --footer-text: #F9F7F7;
+    --link-color: #112D4E;
+  }
+  
+  .site-footer {
+    background-color: var(--footer-bg);
+    color: var(--footer-text);
+    padding: 10px 20px;
+    font-size: 0.85rem;
     text-align: center;
-    padding: 3px;
-    background-color: #3F72AF;
-    color: #F9F7F7;
-    display: block;
-    margin-top: auto; /* Pushes the footer to the bottom */
-}
-
-.author-column {
-    margin: 0 10px;
-    min-width: 200px;
-}
-
+  }
+  
+  .authors-inline {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+  }
+  
+  .authors-inline a {
+    color: var(--link-color);
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+  
+  .authors-inline a:hover {
+    color: #0b1d33;
+  }
+  
 .fila {
     display: flex;
     justify-content: space-between;
@@ -119,7 +136,7 @@ footer {
     padding: 30px;
     max-width: 800px;
     margin: 50px auto;
-    background: #ffffff;
+    background: #F9F7F7;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0,0,0,0.1);
     flex: 1; /* Ensures the content takes up available space */
@@ -148,7 +165,7 @@ footer {
 
   .bloque {
     padding: 15px 20px;
-    background: #e0e0e0;
+    background: #F9F7F7;
     border-radius: 6px;
     font-weight: bold;
     min-width: 150px;
