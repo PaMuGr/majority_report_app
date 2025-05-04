@@ -172,13 +172,7 @@
       let votes     = JSON.parse(post.dataset.votes);
 
       const idx = Array.from(post.querySelectorAll('button')).indexOf(btn);
-      votes[idx]++;
-
-      try {
-        await updateDoc(doc(db, "predictions", qid), { votes });
-      } catch (e) {
-        console.error("Failed to update votes:", e);
-      }
+      
       post.dataset.votes = JSON.stringify(votes);
 
       const maxVote = Math.max(...votes);
@@ -220,6 +214,14 @@
           if (step >= steps) clearInterval(timer);
         }, frameRate);
       });
+
+      votes[idx]++;
+
+      try {
+        await updateDoc(doc(db, "predictions", qid), { votes });
+      } catch (e) {
+        console.error("Failed to update votes:", e);
+      }
 
       setTimeout(() => {
         const next = post.nextElementSibling;
