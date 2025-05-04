@@ -1,7 +1,7 @@
 # 🧠 MAJORITY REPORT  
 *"Predicting the whims of the herd since 2025"*  
 
-![Majority Report Screenshot](./assets/img/mainPage.png)  
+![Majority Report Screenshot](graphics/mainPage.png)  
 
 ## 🌟 About  
 Born during a caffeine-fueled hackathon from the collaboration of four *absolutly handsome* minds, Majority Report flips the script on *Minority Report* - instead of predicting crimes, you predict what the masses are thinking!  
