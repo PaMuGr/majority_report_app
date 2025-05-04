@@ -7,16 +7,15 @@
     <meta charset="UTF-8">
     <title>Majority Report</title>
     <link rel="stylesheet" href="css/index.css">
-    <link rel="stylesheet" href="css/profile.css">
 
-    <!-- Firebase SDK -->
+    <link rel="stylesheet" href="css/profile.css">
+    <!-- Add Firebase SDK -->
     <script type="module">
         // Import Firebase
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
         import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-        import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-        // Firebase config
+        // Your Firebase configuration
         const firebaseConfig = {
             apiKey: "AIzaSyCyOgBBXIo5C-LtsbrdxZepRZoWeF7r17M",
             authDomain: "majority-report-33739.firebaseapp.com",
@@ -30,51 +29,20 @@
         // Initialize Firebase
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
-        const db = getFirestore(app);
 
+        
         // Check auth state when page loads
         document.addEventListener("DOMContentLoaded", () => {
             onAuthStateChanged(auth, (user) => {
                 if (user) {
+                    // User is signed in
                     const displayName = user.displayName || "User";
                     
-                    // Update placeholders with username
+                    // Update all placeholders with the username
                     document.querySelectorAll('p, h2').forEach(element => {
                         if (element.textContent.includes('@user') || element.textContent.includes('@USERNAME')) {
                             element.textContent = element.textContent.replace('@user', displayName)
                                                                      .replace('@USERNAME', displayName.toUpperCase());
-                        }
-                    });
-
-                    // Fetch user stats from Firestore
-                    const userRef = doc(db, "players", user.uid);
-                    getDoc(userRef).then((docSnapshot) => {
-                        if (docSnapshot.exists()) {
-                            const userData = docSnapshot.data();
-                            const points = userData.points || 1;
-                            const correctAnswers = userData.correct_ans || 0;
-                            const totalAnswers = userData.total_ans || 0;
-
-                            // Update stats on the page
-                            document.getElementById('progress-text').textContent = 'Points: ' + userData.points;
-                            document.getElementById("level").textContent = Math.floor(0.1 * Math.sqrt(userData.points));
-                            document.getElementById("correct-answers").textContent = correctAnswers;
-                            document.getElementById("total-answers").textContent = totalAnswers;
-
-                            const level = Math.floor(0.1 * Math.sqrt(userData.points));
-
-                            // 2) points at start of this level
-                            const minPoints = Math.pow(level   / 0.1, 2); // === (10*level)^2
-                            // 3) points at start of next level
-                            const maxPoints = Math.pow((level+1)/ 0.1, 2); // === [10*(level+1)]^2
-
-                            // 4) progress fraction (clamped 0–1)
-                            const frac = (userData.points - minPoints) / (maxPoints - minPoints);
-                            const progressPct = Math.min(100, Math.max(0, frac * 100));
-
-                            // Return the progress as a percentage
-                            updateProgress(progressPct); // Ensure progress is between 0% and 100%
-
                         }
                     });
 
@@ -86,11 +54,6 @@
                 }
             });
         });
-
-        function updateProgress(progress) {
-            const progressBar = document.getElementById('progress-bar');
-            progressBar.style.width = progress + '%';
-        }
     </script>
 </head>
 
@@ -109,10 +72,8 @@
             <li><a href="editor.html"><img src="graphics/edit.png" height="20"></a></li>
         </ul>
     </nav>
-
     <main>
     <br><br><br><br>
-
     <div class="fila">
         <!-- BLOC 1 -->
         <div class="izquierda">
@@ -138,6 +99,33 @@
                 </a>
             </div>
         </div>
+        
+        <!--
+        <div class="box">
+            <h2>STATS:</h2>
+            <h2 style="text-align: center;">@USERNAME</h2><br><br>
+            <ul>
+                <div class="shade_box"><li>Level:</li></div>
+                <br>
+                <div class="shade_box"><li>Ratio:</li></div>
+                <br>
+                <div class="shade_box"><li>Global Rank:</li></div>
+            </ul>
+        </div>-->
+        <br>
+
+
+
+    </head>
+    <body>
+
+    <div class="profile-block">
+        <div class="profile-name" id="profile-name">@user</div>
+
+        <div class="progress-label" id="progress-text">Experience: 0%</div>
+        <div class="progress-container">
+        <div class="progress-bar" id="progress-bar"></div>
+        </div>
 
         <div class="profile-stats">
         <div class="stat-item">
@@ -156,28 +144,40 @@
     </div>
     </main>
 
-            <div class="progress-label" id="progress-text">Experience: 0%</div>
-            <div class="progress-container">
-                <div class="progress-bar" id="progress-bar"></div>
-            </div>
+    <script>
+        let level = 1;
+        let progress = 0;
+        const progressBar = document.getElementById('progress-bar');
+        const progressText = document.getElementById('progress-text');
+        const levelText = document.getElementById('level');
 
-            <div class="profile-stats">
-                <div class="stat-item">
-                    <span class="label">Level</span>
-                    <span class="value" id="level">1</span>
-                </div>
-                <div class="stat-item">
-                    <span class="label">Correct Answers</span>
-                    <span class="value" id="correct-answers">0</span>
-                </div>
-                <div class="stat-item">
-                    <span class="label">Total Answers</span>
-                    <span class="value" id="total-answers">0</span>
-                </div>
-            </div>
-        </div>
+        function increaseProgress() {
+        if (progress < 100) {
+            updateBar();
+        } else {
+            // Añadir clase de brillo
+            progressBar.classList.add('glow');
 
-    </div>
+            setTimeout(() => {
+            // Subir de nivel y reiniciar
+            level++;
+            levelText.textContent = level;
+            progress = 0;
+            updateBar();
+            progressBar.classList.remove('glow');
+            }, 1500); // Duración del brillo
+        }
+        }
+
+        function updateBar() {
+        progressBar.style.width = progress + '%';
+        progressText.textContent = 'Experience: ' + progress + '%';
+        }
+
+        // Simula el aumento de experiencia cada 100ms
+        setInterval(increaseProgress, 100);
+    </script>
+  </div>
 
     <footer class="site-footer">
         <div class="authors-inline">
