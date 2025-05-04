@@ -84,13 +84,15 @@
     const userSnap   = await getDoc(userDocRef);
 
     // only create the document if it doesn't already exist
+    const username_value = user.displayName;
     if (!userSnap.exists()) {
       await setDoc(userDocRef, {
         points:      0,
         level:       0,
         ids:         [],
         correct_ans: 0,
-        total_ans:   0
+        total_ans:   0,
+        username: username_value
       });
     }
   });
