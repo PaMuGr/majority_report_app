@@ -83,8 +83,6 @@ h2 {
     color: #F9F7F7;
     border-radius: 25px;
     text-align: center;
-    display: block;
-    margin: 0 auto; /* Center the button horizontally */
 }
 .go_button:hover {
     background-color: #112D4E;
@@ -92,13 +90,12 @@ h2 {
 .second_button{
     margin: 0 auto; 
     position: relative; 
-    transform: translateX(0); /* Remove left alignment */
+    left: 50%;
+    transform: translateX(-50%); 
     width: 350px;
     height: 80px;
     color: #3F72AF;
     border-radius: 25px;
-    display: block;
-    text-align: center;
 }
 
 :root {
