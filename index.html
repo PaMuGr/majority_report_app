@@ -1,61 +1,94 @@
 <!DOCTYPE html>
-
 <html>
-    <head>
-        <title> Majority Report </title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="css/index.css">
-        <link rel="stylesheet" href="css/profile.css">
+<head>
+  <title>Majority Report</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="css/index.css">
+  <link rel="stylesheet" href="css/profile.css">
 
-    </head>
+  <!-- Firebase init + auto-redirect if signed in -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
-    <body>
-        <div class="page-container">
-            <nav>    
-                <ul class="navigator">
-                    <li><a href="index.html" ><img src="graphics/home-icon.png"  height="20"  ></a></li>
-                    <li class="align-right">
-                        <a> <img src="graphics/user.png" height="20"> </a>
-                        <ul class="dropdown">
-                            <li><button onclick="window.location.href='login.html';" class="list-button">Log in</button></li>
-                            <li><button onclick="window.location.href='sign_up.html';" class="list-button">Sign Up</button></li>
-                        </ul>
-                    </li>
-                </ul>
-            </nav>
-        
-            <main>
-                    <h1 class="text" style="text-align: center;">Majority Report</h1>
-                    <br>
+    // 1) Your Firebase config
+    const firebaseConfig = {
+      apiKey: "AIzaSyCyOgBBXIo5C-LtsbrdxZepRZoWeF7r17M",
+      authDomain: "majority-report-33739.firebaseapp.com",
+      projectId: "majority-report-33739",
+      storageBucket: "majority-report-33739.appspot.com",
+      messagingSenderId: "96713972972",
+      appId: "1:96713972972:web:ecdba62f0a3c29d01259c9",
+      measurementId: "G-Z379S3VVY9"
+    };
+    const app  = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
 
-                <p style="text-align: center; font-family: sans-serif;">
-                Welcome to Majority Report, a research-oriented website which goal<br>
-                is to compare how the majority thinks with your own perception.
-                </p>
+    // 2) Redirect if already logged in
+    onAuthStateChanged(auth, user => {
+      if (user) {
+        // User is signed in, send them to home
+        window.location.replace("home.html");
+      }
+    });
+  </script>
+</head>
 
-                <div class="center-buttons">
-                    <a href="sign_up.html">
-                        <button class="button-primary">Sign Up</button>
-                    </a>
-                
-                    <p style="text-align: center; font-family: 'Poppins', sans-serif;">--- or if you already have an account ---</p>
-                
-                    <a href="login.html">
-                        <button class="button-secondary">Log In</button>
-                    </a>
-                </div>
-            </main>
-        <br> <br> <br>
-    
+<body>
+  <div class="page-container">
+    <nav>    
+      <ul class="navigator">
+        <li>
+          <a href="index.html">
+            <img src="graphics/home-icon.png" height="20">
+          </a>
+        </li>
+        <li class="align-right">
+          <a><img src="graphics/user.png" height="20"></a>
+          <ul class="dropdown">
+            <li>
+              <button onclick="location.href='login.html';" class="list-button">
+                Log in
+              </button>
+            </li>
+            <li>
+              <button onclick="location.href='sign_up.html';" class="list-button">
+                Sign Up
+              </button>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </nav>
 
-            <footer class="site-footer";>
-                <div class="authors-inline">
-                <span><a href="mailto:marlon.folch@estudiantat.upc.edu">Marlon Folch</a></span>
-                <span><a href="mailto:pau.muras@estudiantat.upc.edu">Pau Muras</a></span>
-                <span><a href="mailto:marcel.grau.martin@estudiantat.upc.edu">Marcel Grau</a></span>
-                <span><a href="mailto:joemacbcn@gmail.com">Joe Mac Manus</a></span>
-                </div>
-            </footer>
-        </div>
-    </body>
+    <main>
+      <h1 class="text" style="text-align: center;">Majority Report</h1>
+      <p style="text-align: center; font-family: sans-serif; margin-top:1rem;">
+        Welcome to Majority Report, a research-oriented website whose goal<br>
+        is to compare how the majority thinks with your own perception.
+      </p>
+
+      <div class="center-buttons" style="margin-top:2rem;">
+        <a href="sign_up.html">
+          <button class="button-primary">Sign Up</button>
+        </a>
+        <p style="margin:1rem 0; font-family:'Poppins',sans-serif; text-align:center;">
+          --- or if you already have an account ---
+        </p>
+        <a href="login.html">
+          <button class="button-secondary">Log In</button>
+        </a>
+      </div>
+    </main>
+
+    <footer class="site-footer">
+      <div class="authors-inline">
+        <span><a href="mailto:marlon.folch@estudiantat.upc.edu">Marlon Folch</a></span>
+        <span><a href="mailto:pau.muras@estudiantat.upc.edu">Pau Muras</a></span>
+        <span><a href="mailto:marcel.grau.martin@estudiantat.upc.edu">Marcel Grau</a></span>
+        <span><a href="mailto:joemacbcn@gmail.com">Joe Mac Manus</a></span>
+      </div>
+    </footer>
+  </div>
+</body>
 </html>
