@@ -17,18 +17,40 @@ h2 {
     padding: 0;
     margin: 0;
 }
+
+:root {
+  --nav-footer-bg: #3F72AF;
+  --nav-footer-text: #F9F7F7;
+  --link-color: #112D4E;
+  --accent-color: #3F72AF;
+  --text-color: #112D4E;
+  --hover-bg: #112D4E;
+  --box-bg: #7fffd400;
+  --shade-box-bg: #e4e3d5;
+  --big-block-bg: #F9F7F7;
+  --derecha-bg: #4caf50;
+  --derecha-text: white;
+  --bloque-bg: #F9F7F7;
+}
+
+.page-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
 .navigator{
     list-style: none;
-    background: #3F72AF;
+    background: var(--nav-footer-bg);
 }
 .navigator li{
     display: inline-block;
-    background-color: #3F72AF;
+    background-color: var(--nav-footer-bg);
 }
 .navigator li a{
     display: block;
     padding: 15px 20px;
-    color: #F9F7F7;
+    color: var(--nav-footer-text);
     text-decoration: none;
     text-align: center;
     font-size: 20px;
@@ -44,7 +66,7 @@ h2 {
     display: none;
 }
 .navigator li a:hover {
-    background-color: #112D4E;
+    background-color: var(--hover-bg);
 }
 
 .navigator li:hover ul.dropdown{
@@ -56,19 +78,19 @@ h2 {
     width: 150px;
 }
 .box {
-    color: #112D4E;
-    background-color: #7fffd400;
+    color: var(--text-color);
+    background-color: var(--box-bg);
     padding: 20px;
     border: 1px solid;
     margin-left: 200px;
     margin-right: 200px;
-    outline-color: #112D4E;
+    outline-color: var(--text-color);
     border-radius: 25px;
 
 }
 .shade_box {
-    color: #112D4E;
-    background-color: #e4e3d5;
+    color: var(--text-color);
+    background-color: var(--shade-box-bg);
     padding: 20px;
     border-radius: 25px;
     outline-color: #112D4E;
@@ -78,13 +100,13 @@ h2 {
     position: relative; 
     width: 250px;
     height: 60px;
-    background-color: #3F72AF;
-    color: #F9F7F7;
+    background-color: var(--accent-color);
+    color: var(--nav-footer-text);
     border-radius: 25px;
     text-align: center;
 }
 .go_button:hover {
-    background-color: #112D4E;
+    background-color: var(--hover-bg);
 }
 .second_button{
     margin: 0 auto; 
@@ -96,19 +118,10 @@ h2 {
     color: #3F72AF;
     border-radius: 25px;
 }
-
-:root {
-    --footer-bg: #3F72AF;
-    --footer-text: #F9F7F7;
-    --link-color: #112D4E;
-    --accent-color: #3F72AF;
-    --text-color: #112D4E;
-      
-  }
   
   .site-footer {
-    background-color: var(--footer-bg);
-    color: var(--footer-text);
+    background-color: var(--nav-footer-bg);
+    color: var(--nav-footer-text);
     padding: 10px 20px;
     font-size: 0.85rem;
     text-align: center;
@@ -128,7 +141,7 @@ h2 {
   }
   
   .authors-inline a:hover {
-    color: #112D4E;
+    color: var(--hover-bg);
   }
   
 .fila {
@@ -138,7 +151,7 @@ h2 {
     padding: 30px;
     max-width: 800px;
     margin: 50px auto;
-    background: #F9F7F7;
+    background: var(--big-block-bg);
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0,0,0,0.1);
     flex: 1; /* Ensures the content takes up available space */
@@ -157,8 +170,8 @@ h2 {
 
   .derecha {
     padding: 20px;
-    background: #4caf50;
-    color: white;
+    background: var(--derecha-bg);
+    color: var(--derecha-text);
     border-radius: 8px;
     font-weight: bold;
     min-width: 120px;
@@ -167,7 +180,7 @@ h2 {
 
   .bloque {
     padding: 15px 20px;
-    background: #F9F7F7;
+    background: var(--bloque-bg);
     border-radius: 6px;
     font-weight: bold;
     min-width: 150px;
@@ -227,12 +240,6 @@ h2 {
     margin: 0;
   }
   
-  .page-container {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-  }
-  
   main {
     flex-grow: 1;
     display: flex;
@@ -247,15 +254,22 @@ h2 {
     margin: 0 10px;
   }
 
+  .navigator {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    justify-content: space-around;
+  }
+  
   .navigator li {
-    display: block;
+    flex: 1;
     text-align: center;
   }
-
-  .navigator {
-    padding: 0;
+  
+  .navigator::-webkit-scrollbar {
+    display: none;
   }
-
+  
   .navigator li ul.dropdown {
     position: static;
     display: block;
@@ -278,7 +292,3 @@ h2 {
     gap: 10px;
   }
 }
-  
-  
-  
-  

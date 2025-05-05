@@ -1,3 +1,20 @@
+:root {
+  --nav-footer-bg: #3F72AF;
+  --nav-footer-text: #F9F7F7;
+  --link-color: #112D4E;
+  --accent-color: #3F72AF;
+  --text-color: #112D4E;
+  --main-bg: #eaeef3;
+  --transparent-bg: #7fffd400;
+  --shade-bg: #e4e3d5;
+  --shadow-color: rgba(0, 0, 0, 0.1);
+  --success-bg: #4caf50;
+  --white: #ffffff;
+  --hover-bg: #112D4E;
+  --form-bg: #F9F7F7;
+  --outline-color: #18293b;
+}
+
 * {
   padding: 0;
   margin: 0;
@@ -5,28 +22,22 @@
 }
 
 body {
-  background-color: #eaeef3;
+  background-color: var(--main-bg);
   font-family: 'Poppins', sans-serif;
 }
 
 h1 {
   font-family: 'Poppins', sans-serif;
-  margin-bottom: 15px; 
+  margin-bottom: 15px;
 }
 
 input {
   margin-top: 15px;
 }
 
-:root {
-  --footer-bg: #3F72AF;
-  --footer-text: #F9F7F7;
-  --link-color: #112D4E;
-}
-
 .site-footer {
-  background-color: var(--footer-bg);
-  color: var(--footer-text);
+  background-color: var(--nav-footer-bg);
+  color: var(--nav-footer-text);
   padding: 10px 20px;
   font-size: 0.85rem;
   text-align: center;
@@ -46,41 +57,45 @@ input {
 }
 
 .authors-inline a:hover {
-  color: #0b1d33;
+  color: var(--hover-bg);
 }
 
-.navigator{
+.navigator {
   list-style: none;
-  background: #3F72AF;
+  background: var(--nav-footer-bg);
 }
-.navigator li{
+
+.navigator li {
   display: inline-block;
-  background-color: #3F72AF;
+  background-color: var(--nav-footer-bg);
 }
-.navigator li a{
+
+.navigator li a {
   display: block;
   padding: 15px 20px;
-  color: #F9F7F7;
+  color: var(--nav-footer-text);
   text-decoration: none;
   text-align: center;
   font-size: 20px;
 }
-.navigator li ul.dropdown li{
-  display: block;
 
+.navigator li ul.dropdown li {
+  display: block;
 }
-.navigator li ul.dropdown{
+
+.navigator li ul.dropdown {
   min-width: 120px;
   width: auto;
   position: absolute;
   z-index: 999;
   display: none;
 }
+
 .navigator li a:hover {
-  background-color: #112D4E;
+  background-color: var(--hover-bg);
 }
 
-.navigator li:hover ul.dropdown{
+.navigator li:hover ul.dropdown {
   display: block;
 }
 
@@ -96,18 +111,18 @@ input {
   max-width: 100%;
   padding: 20px;
   border: 1px solid;
-  outline-color: #18293b;
+  outline-color: var(--outline-color);
 }
 
 /* Form Styling */
 .form-container {
   max-width: 600px;
   margin: 40px auto;
-  background-color: #F9F7F7;
+  background-color: var(--form-bg);
   padding: 20px;
   border: 1px solid #ccc;
   border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 4px var(--shadow-color);
 }
 
 .form-group {
@@ -117,7 +132,7 @@ input {
 .form-group label {
   display: block;
   margin-bottom: 5px;
-  color: #0a1522;
+  color: var(--text-color);
 }
 
 .form-group input {
@@ -133,7 +148,7 @@ input {
 
 .answer {
   display: flex;
-  align-items: center; /* Ensures vertical alignment */
+  align-items: center;
   margin-bottom: 10px;
 }
 
@@ -147,44 +162,45 @@ input {
 
 .answer button {
   padding: 6px 12px;
-  background-color: #3F72AF;
-  color: white;
+  background-color: var(--accent-color);
+  color: var(--white);
   border: none;
   border-radius: 4px;
   cursor: pointer;
   display: flex;
-  align-items: center; 
+  align-items: center;
   justify-content: center;
-  margin: 16px 5px 0 0; 
+  margin: 16px 5px 0 0;
 }
 
 .answer button:last-child {
-  margin: 16px 0 0 0; 
+  margin: 16px 0 0 0;
 }
 
 .answer button:hover {
-  background-color: #112D4E;
+  background-color: var(--hover-bg);
 }
 
 .correct-button {
   padding: 6px 12px;
-  background-color: #3F72AF;
-  color: white;
+  background-color: var(--accent-color);
+  color: var(--white);
   border: none;
   border-radius: 4px;
   cursor: pointer;
 }
 
 .correct-button:hover {
-  background-color: #112D4E;
+  background-color: var(--hover-bg);
 }
 
 .correct-button.active {
-  background-color: #112D4E;
-  color: white;
+  background-color: var(--hover-bg);
+  color: var(--white);
   border: none;
 }
-.probando{
+
+.probando {
   width: 200px;
   display: inline-block;
 }
@@ -205,11 +221,10 @@ main {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center; /* Optional: vertically center content */
+  justify-content: center;
   padding: 2rem;
 }
 
-/*mobile friendly*/
 /* Responsive Design */
 .editor-container {
   display: flex;
@@ -241,7 +256,7 @@ main {
     position: static;
     display: block;
     text-align: center;
-    background: #3F72AF;
+    background: var(--nav-footer-bg);
   }
 
   .navigator li ul.dropdown li {
