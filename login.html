@@ -12,9 +12,11 @@
       signInWithEmailAndPassword,
       setPersistence,
       browserLocalPersistence,
-      browserSessionPersistence
+      browserSessionPersistence,
+      onAuthStateChanged
     } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-
+  
+    // 1) Initialize Firebase
     const firebaseConfig = {
       apiKey: "AIzaSyCyOgBBXIo5C-LtsbrdxZepRZoWeF7r17M",
       authDomain: "majority-report-33739.firebaseapp.com",
@@ -24,35 +26,42 @@
       appId: "1:96713972972:web:ecdba62f0a3c29d01259c9",
       measurementId: "G-Z379S3VVY9"
     };
-
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
-
+  
+    // 2) Redirect immediately if already signed in
+    onAuthStateChanged(auth, user => {
+      if (user) {
+        window.location.href = "home.html";
+      }
+    });
+  
     window.addEventListener("DOMContentLoaded", () => {
-      const form = document.getElementById("form");
-      const emailInput = document.getElementById("email-input");
-      const passwordInput = document.getElementById("password-input");
-      const keepSignedInCheckbox = document.getElementById("keep-signed-in");
-      const errorMessage = document.getElementById("error-message");
-
-      form.addEventListener("submit", async (e) => {
+      const form                   = document.getElementById("form");
+      const emailInput             = document.getElementById("email-input");
+      const passwordInput          = document.getElementById("password-input");
+      const keepSignedInCheckbox   = document.getElementById("keep-signed-in");
+      const errorMessage           = document.getElementById("error-message");
+  
+      form.addEventListener("submit", async e => {
         e.preventDefault();
         errorMessage.textContent = "";
-
-        const email = emailInput.value.trim();
+  
+        // 3) Read inputs
+        const email    = emailInput.value.trim();
         const password = passwordInput.value;
-        const persistenceType = keepSignedInCheckbox.checked
+        const persistence = keepSignedInCheckbox.checked
           ? browserLocalPersistence
           : browserSessionPersistence;
-
+  
         try {
-          await setPersistence(auth, persistenceType);
-          const userCredential = await signInWithEmailAndPassword(auth, email, password);
-          const user = userCredential.user;
-          alert(`Welcome back, ${user.email}`);
-          window.location.href = "home.html";
-        } catch (error) {
-          errorMessage.textContent = "Login failed: " + error.message;
+          // 4) Set chosen persistence
+          await setPersistence(auth, persistence);
+          // 5) Sign in
+          await signInWithEmailAndPassword(auth, email, password);
+          // onAuthStateChanged will now fire and redirect
+        } catch (err) {
+          errorMessage.textContent = "Login failed: " + err.message;
         }
       });
     });
