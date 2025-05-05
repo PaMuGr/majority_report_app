@@ -56,12 +56,12 @@ form {
   gap: 1rem;
 }
 
-form > div {
+form .input-group {
   display: flex;
   align-items: center;
 }
 
-form label {
+.input-group > label {
   height: 50px;
   width: 50px;
   background-color: var(--accent-color);
@@ -208,4 +208,31 @@ main {
     flex-direction: column;
     gap: 10px;
   }
+}
+
+.checkbox-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 15px;
+  color: var(--text-color);
+  margin-top: 1rem;
+  width: 100%;
+  padding-left: 4px;
+}
+
+.custom-checkbox {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  accent-color: var(--accent-color); /* Same as your theme */
+  flex-shrink: 0;
+}
+
+.checkbox-label {
+  cursor: pointer;
+  line-height: 1;
+  user-select: none;
 }
