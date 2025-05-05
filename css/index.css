@@ -38,7 +38,7 @@ h2 {
 
 }
 .navigator li ul.dropdown{
-    width:11%;
+    width:100%;
     position: absolute;
     z-index: 999;
     display: none;

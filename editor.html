@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Create a Prediction</title>
   <link rel="stylesheet" href="css/editor_style.css">
+  <link rel="stylesheet" href="css/profile.css">
+  <link rel="stylesheet" href="css/index.css">
   <style>
     .correct-button.active {
       background-color: #4CAF50;
@@ -23,19 +25,19 @@
 </head>
 <body>
   <div class="page-container">
-  <nav>    
-    <ul class="navigator">
-        <li><a href="home.html" ><img src="graphics/home-icon.png"  height="20"  ></a></li>
-        <li class="align-right">
-            <a href="home.html"> <img src="graphics/user.png" height="20"> </a>
-            <ul class="dropdown">
-                <li><a href="index.html">Log out</a></li>
-            </ul>
-        </li>
-        <li><a href="leaderboard.html"><img src="graphics/bp.png" height="20"></a></li>
-        <li><a href="editor.html"><img src="graphics/edit.png" height="20"></a></li>
-    </ul>
-  </nav>
+    <nav>    
+        <ul class="navigator">
+            <li><a href="home.html" ><img src="graphics/home-icon.png"  height="20"  ></a></li>
+            <li class="align-right">
+                <a> <img src="graphics/user.png" height="20"> </a>
+                <ul class="dropdown">
+                    <li><button id="logout-btn" class="list-button">Log Out</button></li>
+                </ul>
+            </li>
+            <li><a href="leaderboard.html"><img src="graphics/bp.png" height="20"></a></li>
+            <li><a href="editor.html"><img src="graphics/edit.png" height="20"></a></li>
+        </ul>
+    </nav>
   <main>
   <div class="form-container">
     <h1>Create a Prediction</h1><br>
@@ -61,7 +63,7 @@
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
     import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
     const firebaseConfig = {
@@ -77,6 +79,19 @@
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
     const db = getFirestore(app);
+
+    const logoutBtn = document.getElementById('logout-btn');
+
+    logoutBtn.addEventListener('click', () => {
+    signOut(auth)
+        .then(() => {
+        window.location.href = "index.html"; // Redirect to homepage or login
+        })
+        .catch((error) => {
+        console.error("Logout error:", error);
+        alert("Error logging out. Try again.");
+        });
+    });
 
     let currentUser = null;
 

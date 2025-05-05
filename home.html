@@ -14,7 +14,7 @@
     <script type="module">
         // Import Firebase
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+        import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
         import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
         // Firebase config
@@ -32,6 +32,19 @@
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getFirestore(app);
+
+        const logoutBtn = document.getElementById('logout-btn');
+
+        logoutBtn.addEventListener('click', () => {
+        signOut(auth)
+            .then(() => {
+            window.location.href = "index.html"; // Redirect to homepage or login
+            })
+            .catch((error) => {
+            console.error("Logout error:", error);
+            alert("Error logging out. Try again.");
+            });
+        });
 
         // Check auth state when page loads
         document.addEventListener("DOMContentLoaded", () => {
@@ -102,7 +115,7 @@
             <li class="align-right">
                 <a> <img src="graphics/user.png" height="20"> </a>
                 <ul class="dropdown">
-                    <li><a href="index.html">Log out</a></li>
+                    <li><button id="logout-btn" class="list-button">Log Out</button></li>
                 </ul>
             </li>
             <li><a href="leaderboard.html"><img src="graphics/bp.png" height="20"></a></li>
