@@ -209,3 +209,30 @@ main {
   justify-content: center; /* Optional: vertically center content */
   padding: 2rem;
 }
+
+/*mobile friendly*/
+/* Responsive Design */
+.editor-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  padding: 20px;
+  max-width: 800px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+@media (max-width: 768px) {
+  .editor-container {
+      padding: 10px;
+  }
+
+  .editor-container input,
+  .editor-container textarea,
+  .editor-container button {
+      width: 100%; /* Make inputs and buttons take full width */
+      font-size: 1rem; /* Adjust font size for smaller screens */
+  }
+}
