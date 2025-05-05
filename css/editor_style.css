@@ -70,7 +70,8 @@ input {
 
 }
 .navigator li ul.dropdown{
-  width: 11%;
+  min-width: 120px;
+  width: auto;
   position: absolute;
   z-index: 999;
   display: none;
@@ -91,12 +92,10 @@ input {
 }
 
 .box {
-  color: #0a1522;
-  background-color: rgba(127, 255, 212, 0);
+  margin: 0 auto;
+  max-width: 100%;
   padding: 20px;
   border: 1px solid;
-  margin-left: 200px;
-  margin-right: 200px;
   outline-color: #18293b;
 }
 
@@ -225,14 +224,38 @@ main {
 }
 
 @media (max-width: 768px) {
-  .editor-container {
-      padding: 10px;
+  .box {
+    margin: 0 10px;
   }
 
-  .editor-container input,
-  .editor-container textarea,
-  .editor-container button {
-      width: 100%; /* Make inputs and buttons take full width */
-      font-size: 1rem; /* Adjust font size for smaller screens */
+  .navigator li {
+    display: block;
+    text-align: center;
+  }
+
+  .navigator {
+    padding: 0;
+  }
+
+  .navigator li ul.dropdown {
+    position: static;
+    display: block;
+    text-align: center;
+    background: #3F72AF;
+  }
+
+  .navigator li ul.dropdown li {
+    display: block;
+    width: 100%;
+  }
+
+  .form-container {
+    margin: 20px 10px;
+    padding: 15px;
+  }
+
+  .authors-inline {
+    flex-direction: column;
+    gap: 10px;
   }
 }
