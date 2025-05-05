@@ -107,87 +107,87 @@
         }
     </script>
 </head>
-
-<body>
-    <nav>    
-        <ul class="navigator">
-            <li><a href="home.html" ><img src="graphics/home-icon.png"  height="20"  ></a></li>
-            <li class="align-right">
-                <a> <img src="graphics/user.png" height="20"> </a>
-                <ul class="dropdown">
-                    <li><button id="logout-btn" class="list-button">Log Out</button></li>
+    <body>
+        <div class="page-container">
+            <nav>    
+                <ul class="navigator">
+                    <li><a href="home.html" ><img src="graphics/home-icon.png"  height="20"  ></a></li>
+                    <li class="align-right">
+                        <a> <img src="graphics/user.png" height="20"> </a>
+                        <ul class="dropdown">
+                            <li><button id="logout-btn" class="list-button">Log Out</button></li>
+                        </ul>
+                    </li>
+                    <li><a href="leaderboard.html"><img src="graphics/bp.png" height="20"></a></li>
+                    <li><a href="editor.html"><img src="graphics/edit.png" height="20"></a></li>
                 </ul>
-            </li>
-            <li><a href="leaderboard.html"><img src="graphics/bp.png" height="20"></a></li>
-            <li><a href="editor.html"><img src="graphics/edit.png" height="20"></a></li>
-        </ul>
-    </nav>
+            </nav>
 
-    <br><br><br><br>
+            <br><br><br><br>
 
-    <div class="fila">
-        <!-- BLOC 1 -->
-        <div class="izquierda">
-            <div style="text-align: center; margin-bottom: 10px;">
-                <h1> Majority Report</h1>
+            <div class="fila">
+                <!-- BLOC 1 -->
+                <div class="izquierda">
+                    <div style="text-align: center; margin-bottom: 10px;">
+                        <h1> Majority Report</h1>
+                    </div>
+
+                    <div style="text-align: center; margin-bottom: 25px;">
+                        <p>Welcome back @user!</p>
+                    </div>
+                    
+                    <div>
+                        <a href="prediction_scroll.html">
+                            <button class="go_button">
+                                <h3>Answer today's question!</h3>
+                            </button>
+                        </a>
+                    </div>
+
+                    <div style="text-align: center; font-size: smaller;">
+                        <a href="editor.html">
+                            <p>Or write one yourself!</p>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- User Stats Section -->
+                <div class="profile-block">
+                    <div class="profile-name" id="profile-name">@user</div>
+
+                    <div class="progress-label" id="progress-text">Experience: 0%</div>
+                    <div class="progress-container">
+                        <div class="progress-bar" id="progress-bar"></div>
+                    </div>
+
+                    <div class="profile-stats">
+                        <div class="stat-item">
+                            <span class="label">Level</span>
+                            <span class="value" id="level">1</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="label">Correct Answers</span>
+                            <span class="value" id="correct-answers">0</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="label">Total Answers</span>
+                            <span class="value" id="total-answers">0</span>
+                        </div>
+                    </div>
+                </div>
+
             </div>
 
-            <div style="text-align: center; margin-bottom: 25px;">
-                <p>Welcome back @user!</p>
-            </div>
-            
-            <div>
-                <a href="prediction_scroll.html">
-                    <button class="go_button">
-                        <h3>Answer today's question!</h3>
-                    </button>
-                </a>
-            </div>
+            <br><br><br><br><br>
 
-            <div style="text-align: center; font-size: smaller;">
-                <a href="editor.html">
-                    <p>Or write one yourself!</p>
-                </a>
-            </div>
+            <footer class="site-footer">
+                <div class="authors-inline">
+                    <span><a href="mailto:marlon.folch@estudiantat.upc.edu">Marlon Folch</a></span>
+                    <span><a href="mailto:pau.muras@estudiantat.upc.edu">Pau Muras</a></span>
+                    <span><a href="mailto:marcel.grau.martin@estudiantat.upc.edu">Marcel Grau</a></span>
+                    <span><a href="mailto:joemacbcn@gmail.com">Joe Mac Manus</a></span>
+                </div>
+            </footer>
         </div>
-
-        <!-- User Stats Section -->
-        <div class="profile-block">
-            <div class="profile-name" id="profile-name">@user</div>
-
-            <div class="progress-label" id="progress-text">Experience: 0%</div>
-            <div class="progress-container">
-                <div class="progress-bar" id="progress-bar"></div>
-            </div>
-
-            <div class="profile-stats">
-                <div class="stat-item">
-                    <span class="label">Level</span>
-                    <span class="value" id="level">1</span>
-                </div>
-                <div class="stat-item">
-                    <span class="label">Correct Answers</span>
-                    <span class="value" id="correct-answers">0</span>
-                </div>
-                <div class="stat-item">
-                    <span class="label">Total Answers</span>
-                    <span class="value" id="total-answers">0</span>
-                </div>
-            </div>
-        </div>
-
-    </div>
-
-    <br><br><br><br><br>
-
-  <footer class="site-footer">
-    <div class="authors-inline">
-      <span><a href="mailto:marlon.folch@estudiantat.upc.edu">Marlon Folch</a></span>
-      <span><a href="mailto:pau.muras@estudiantat.upc.edu">Pau Muras</a></span>
-      <span><a href="mailto:marcel.grau.martin@estudiantat.upc.edu">Marcel Grau</a></span>
-      <span><a href="mailto:joemacbcn@gmail.com">Joe Mac Manus</a></span>
-    </div>
-  </footer>
-  
-</body>
+    </body>
 </html>
