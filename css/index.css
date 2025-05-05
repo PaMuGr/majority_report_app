@@ -1,5 +1,4 @@
 body{
-    /*background-color: #eaeef3;*/
     background-color: #eaeef3;
     overflow-x: hidden;
     display: flex;
@@ -58,21 +57,21 @@ h2 {
 }
 .box {
     color: #112D4E;
-    background-color: rgba(127, 255, 212, 0);
+    background-color: #7fffd400;
     padding: 20px;
     border: 1px solid;
     margin-left: 200px;
     margin-right: 200px;
-    outline-color: #18293b;
+    outline-color: #112D4E;
     border-radius: 25px;
 
 }
 .shade_box {
-    color: #0a1522;
+    color: #112D4E;
     background-color: #e4e3d5;
     padding: 20px;
     border-radius: 25px;
-    outline-color: #18293b00;
+    outline-color: #112D4E;
 }
 .go_button{
     margin-top: 10px;
@@ -129,7 +128,7 @@ h2 {
   }
   
   .authors-inline a:hover {
-    color: #0b1d33;
+    color: #112D4E;
   }
   
 .fila {
