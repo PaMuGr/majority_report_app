@@ -1,6 +1,23 @@
+:root {
+  --main-bg: #eaeef3;
+  --profile-bg: #DBE2EF;
+  --profile-border: #ddd;
+  --profile-shadow: rgba(0, 0, 0, 0.1);
+  --profile-name: #333;
+  --progress-bg: #F9F7F7;
+  --progress-bar: #4caf50;
+  --progress-label: #555;
+  --stat-bg: #F9F7F7;
+  --stat-border: #e0e0e0;
+  --stat-label: #666;
+  --stat-value: #007bff;
+  --button-hover-bg: #e6e6e6;
+  --button-active-bg: #dcdcdc;
+  --button-text: #333;
+}
 
 body {
-  background-color: #f0f2f5;
+  background-color: var(--main-bg);
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   margin: 0;
   padding: 0;
@@ -9,10 +26,10 @@ body {
 .profile-block {
   width: 420px; 
   margin: 50px 100px;
-  background-color: #DBE2EF;
+  background-color: var(--profile-bg);
   border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  border: 1px solid #ddd;
+  box-shadow: 0 4px 10px var(--profile-shadow);
+  border: 1px solid var(--profile-border);
   padding: 20px;
   text-align: center;
 }
@@ -20,18 +37,18 @@ body {
 .profile-name {
   font-size: 1.3em;
   font-weight: bold;
-  color: #333;
+  color: var(--profile-name);
   margin-bottom: 10px;
 }
 
 .progress-label {
   font-size: 0.8em;
-  color: #555;
+  color: var(--progress-label);
   margin-bottom: 5px;
 }
 
 .progress-container {
-  background-color: #F9F7F7;
+  background-color: var(--progress-bg);
   border-radius: 20px;
   height: 16px;
   width: 100%;
@@ -42,21 +59,21 @@ body {
 .progress-bar {
   height: 100%;
   width: 0%;
-  background-color: #4caf50;
+  background-color: var(--progress-bar);
   transition: width 0.3s ease;
 }
 
 .progress-bar.glow {
-  box-shadow: 0 0 10px #4caf50, 0 0 20px #4caf50;
+  box-shadow: 0 0 10px var(--progress-bar), 0 0 20px var(--progress-bar);
   animation: glow 1s ease-in-out infinite alternate;
 }
 
 @keyframes glow {
   from {
-    box-shadow: 0 0 5px #4caf50;
+    box-shadow: 0 0 5px var(--progress-bar);
   }
   to {
-    box-shadow: 0 0 20px #4caf50;
+    box-shadow: 0 0 20px var(--progress-bar);
   }
 }
 
@@ -68,22 +85,22 @@ body {
 .stat-item {
   flex: 1;
   padding: 10px;
-  background: #F9F7F7;
+  background: var(--stat-bg);
   margin: 0 5px;
   border-radius: 8px;
-  border: 1px solid #e0e0e0;
+  border: 1px solid var(--stat-border);
 }
 
 .stat-item span.label {
   display: block;
   font-size: 0.75em;
-  color: #666;
+  color: var(--stat-label);
 }
 
 .stat-item span.value {
   font-size: 1.1em;
   font-weight: bold;
-  color: #007bff;
+  color: var(--stat-value);
 }
 
 /* Each button fills entire width, looks like a modern menu item */
@@ -98,12 +115,12 @@ body {
   font-weight: 600;
   cursor: pointer;
   transition: background-color 0.2s ease, padding-left 0.2s ease;
-  color: #333;
+  color: var(--button-text);
 }
 
 /* Hover effect to indicate interactivity */
 .list-button:hover {
-  background-color: #e6e6e6;
+  background-color: var(--button-hover-bg);
   padding-left: 24px;
 }
 
@@ -111,5 +128,7 @@ body {
 .list-button:active,
 .list-button:focus {
   outline: none;
-  background-color: #dcdcdc;
+  background-color: var(--button-active-bg);
 }
+
+

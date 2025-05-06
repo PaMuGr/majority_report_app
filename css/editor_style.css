@@ -8,6 +8,7 @@
   --transparent-bg: #7fffd400;
   --shade-bg: #e4e3d5;
   --shadow-color: rgba(0, 0, 0, 0.1);
+  --form-shadow: #0000001a;
   --success-bg: #4caf50;
   --white: #ffffff;
   --hover-bg: #112D4E;
@@ -116,11 +117,11 @@ input {
 
 /* Form Styling */
 .form-container {
-  max-width: 600px;
+  max-width: 600px; 
   margin: 40px auto;
   background-color: var(--form-bg);
   padding: 20px;
-  border: 1px solid #ccc;
+  border: 1px solid var(--form-shadow);
   border-radius: 8px;
   box-shadow: 0 2px 4px var(--shadow-color);
 }
