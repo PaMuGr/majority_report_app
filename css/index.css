@@ -24,10 +24,12 @@ h2 {
   --link-color: #112D4E;
   --accent-color: #3F72AF;
   --text-color: #112D4E;
+  /*hover sobre el boto answer*/
   --hover-bg: #112D4E;
   --box-bg: #7fffd400;
   --shade-box-bg: #e4e3d5;
   --big-block-bg: #F9F7F7;
+  --big-block-shadow: #0000001a;
   --derecha-bg: #4caf50;
   --derecha-text: white;
   --bloque-bg: #F9F7F7;
@@ -37,11 +39,13 @@ h2 {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  max-height: 100vh; /* Prevent vertical growth beyond the viewport */
+  overflow-y: auto; /* Allow scrolling if content exceeds the height */
 }
 
 .navigator{
     list-style: none;
-    background: var(--nav-footer-bg);
+    background: var(--nav-footer-bg); 
 }
 .navigator li{
     display: inline-block;
@@ -104,6 +108,8 @@ h2 {
     color: var(--nav-footer-text);
     border-radius: 25px;
     text-align: center;
+    border: none; 
+    box-shadow: 0 4px 6px rgba(63, 114, 175, 0.3); 
 }
 .go_button:hover {
     background-color: var(--hover-bg);
@@ -125,6 +131,7 @@ h2 {
     padding: 10px 20px;
     font-size: 0.85rem;
     text-align: center;
+    margin-top: auto; /* Push the footer to the bottom */
   }
   
   .authors-inline {
@@ -147,15 +154,21 @@ h2 {
 .fila {
     display: flex;
     justify-content: space-between;
-    align-items: center; /* alinea verticalmente al bloque derecho */
+    align-items: center; /* Align vertically */
     padding: 30px;
     max-width: 800px;
-    margin: 50px auto;
+    margin: auto; /* Center the block horizontally and vertically */
     background: var(--big-block-bg);
     border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    box-shadow: 0 0 10px var(--big-block-shadow);
     flex: 1; /* Ensures the content takes up available space */
-  }
+    max-height: 500px; /* Increased height limit */
+    overflow-y: auto; /* Allow scrolling if content exceeds the height */
+    position: absolute;
+    top: 50%; /*50% from the top*/
+    left: 50%;
+    transform: translate(-50%, -50%); /* Center the block */
+}
 
   .izquierda {
     display: flex;
@@ -189,7 +202,8 @@ h2 {
 .profile-block {
     display: block; /* Ensure it takes up the full width */
     width: 80%; /* Optional: Adjust width to fit the layout */
-    max-width: 600px; /* Limit the maximum width */
+    max-width: 400px; /* Limit the maximum width */
+    max-height: 400px; /* Limit the maximum height */
 }
 
 .center-buttons {
@@ -250,45 +264,38 @@ h2 {
   }
   
   @media (max-width: 768px) {
-  .box {
-    margin: 0 10px;
-  }
-
-  .navigator {
-    display: flex;
-    flex-wrap: nowrap;
-    overflow-x: auto;
-    justify-content: space-around;
-  }
+    .box {
+      margin: 0 10px;
+    }
   
-  .navigator li {
-    flex: 1;
-    text-align: center;
-  }
+    .navigator li {
+      display: block;
+      text-align: center;
+    }
   
-  .navigator::-webkit-scrollbar {
-    display: none;
-  }
+    .navigator {
+      padding: 0;
+    }
   
-  .navigator li ul.dropdown {
-    position: static;
-    display: block;
-    text-align: center;
-    background: #3F72AF;
+    .navigator li ul.dropdown {
+      position: static;
+      display: block;
+      text-align: center;
+      background: #3F72AF;
+    }
+  
+    .navigator li ul.dropdown li {
+      display: block;
+      width: 100%;
+    }
+  
+    .form-container {
+      margin: 20px 10px;
+      padding: 15px;
+    }
+  
+    .authors-inline {
+      flex-direction: column;
+      gap: 10px;
+    }
   }
-
-  .navigator li ul.dropdown li {
-    display: block;
-    width: 100%;
-  }
-
-  .form-container {
-    margin: 20px 10px;
-    padding: 15px;
-  }
-
-  .authors-inline {
-    flex-direction: column;
-    gap: 10px;
-  }
-}
